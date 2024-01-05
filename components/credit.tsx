@@ -16,7 +16,7 @@ export function Credit() {
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="hidden lg:block duration-1000 fixed bottom-6 right-20">Developed By Robu Team</Button>
+        <Button variant="outline" className="hidden lg:block duration-1000 fixed bottom-6 right-[6rem]">Developed By Robu Team</Button>
       </DrawerTrigger>
       <DrawerTrigger asChild>
         <Button variant="secondary" className="duration-1000 hidden">Developed By Robu Team</Button>

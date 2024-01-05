@@ -13,7 +13,7 @@ export function ModeToggle() {
     return (
         <div>
             <button 
-                className=" duration-1000 z-[49] fixed bottom-5 right-5 bg-accent w-[3rem] h-[3rem] bg-opacity-80 backdrop-blur-[0.5rem] border border-border border-opacity-40 shadow-2xl rounded-full flex items-center justify-center hover:scale-[1.15] active:scale-105 transition-all"
+                className=" duration-1000 z-[49] fixed bottom-5 right-10 bg-accent w-[3rem] h-[3rem] bg-opacity-80 backdrop-blur-[0.5rem] border border-border border-opacity-40 shadow-2xl rounded-full flex items-center justify-center hover:scale-[1.15] active:scale-105 transition-all"
                 onClick={toggleTheme}
             >
                 {theme === "light" ? <BsMoon/> : <BsSun/>}
