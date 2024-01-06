@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Input } from "@/components/ui/input"
 
+
+
 const isLowercase = (value: string) => /[a-z]/.test(value);
 const isUppercase = (value: string) => /[A-Z]/.test(value);
 const hasDigit = (value: string) => /\d/.test(value);
@@ -48,6 +50,7 @@ const FormSchema = z.object({
 });
 
 const RegisterPage = () => {
+
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
   const [formData, setFormData] = useState({
