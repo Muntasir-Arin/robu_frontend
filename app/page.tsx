@@ -6,7 +6,7 @@ import { ModeToggle } from "@/components/theme-mode";
 export default function Home() {
   return (
     <div>
-      <Banner/>
+      <Banner />
       <NavBar />
       <div className="pt-10 mt-52">
         <p className="text-center text-[2.5rem] sm:text-4xl lg:text-5xl font-black uppercase">
@@ -16,13 +16,7 @@ export default function Home() {
           One Bot at a Time
         </p>
       </div>
-      <div className="hidden lg:block duration-1000 fixed bottom-20 right-10">
-  <audio autoPlay controls className=" w-[16.5rem] h-[2.7rem]">
-    <source src="/background-music.mp3" type="audio/mp3" />
-    Your browser does not support the audio tag.
-  </audio>
-</div>
-
+      
 
       <ModeToggle />
       <Credit />
