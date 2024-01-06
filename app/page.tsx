@@ -17,7 +17,7 @@ export default function Home() {
         </p>
       </div>
       <div className="hidden lg:block duration-1000 fixed bottom-20 right-10">
-  <audio autoPlay controls className=" w-[16.5rem]">
+  <audio autoPlay controls className=" w-[16.5rem] h-[2.7rem]">
     <source src="/background-music.mp3" type="audio/mp3" />
     Your browser does not support the audio tag.
   </audio>
