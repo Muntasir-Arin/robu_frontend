@@ -18,7 +18,7 @@ export default function NavBar() {
             About
           </Button>
         </Link>
-        <Link href="/">
+        <Link href="#panel">
           <Button variant="ghost" className="rounded-full">
             Panel
           </Button>
