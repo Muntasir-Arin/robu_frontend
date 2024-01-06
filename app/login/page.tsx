@@ -8,6 +8,8 @@
   import Link from "next/link";
   import { Input } from "@/components/ui/input";
 import axios from "axios";
+import { toast } from "sonner"
+
   const isLowercase = (value: string) => /[a-z]/.test(value);
   const isUppercase = (value: string) => /[A-Z]/.test(value);
   const hasDigit = (value: string) => /\d/.test(value);
@@ -87,10 +89,17 @@ import axios from "axios";
         } else {
           // Handle missing token in the response
           console.error('Missing auth_token in response');
+          toast.message('Incorrect Email or Password', {
+            description: 'Invalid email or password. Please double-check your credentials and try logging in again.',
+          })
         }
       } else {
-        // Handle login error
+        // Handle error Incorrect Email or Password
         console.error('Login failed');
+        toast.message('Incorrect Email or Password', {
+          description: 'Invalid email or password. Please double-check your credentials and try logging in again.',
+        })
+
       }
       } catch (error) {
         if (error instanceof ZodError) {
@@ -105,8 +114,11 @@ import axios from "axios";
           }, 200);
         }
         else {
-          // Handle login error
-          console.error('Login failed');
+          // Handle Network Error
+          toast.message('Network Error', {
+            description: 'Unable to establish a connection. Please check your network connection and try again.',
+          })
+          
         }
       }
       setTimeout(() => {

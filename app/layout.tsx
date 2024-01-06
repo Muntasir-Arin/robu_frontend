@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
 
 
 const inter = Inter({ subsets: ['latin'] })
@@ -24,12 +25,13 @@ export default function RootLayout({
       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         
         {children}
-        <div className="hidden lg:block duration-1000 fixed bottom-20 right-10">
+        <Toaster closeButton />
+        {/* <div className="hidden lg:block duration-1000 fixed bottom-20 right-10">
         <audio autoPlay controls className=" w-[16.5rem] h-[2.7rem]">
           <source src="/background-music.mp3" type="audio/mp3" />
           Your browser does not support the audio tag.
         </audio>
-      </div>
+      </div> */}
         
         
       </ThemeProvider>
