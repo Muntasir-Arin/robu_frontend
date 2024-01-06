@@ -13,7 +13,7 @@ export default function NavBar() {
       </div>
 
       <div className="pt-2 lg:flex justify-center space-x-4 hidden">
-        <Link href="/">
+        <Link href="#about">
           <Button variant="ghost" className="rounded-full">
             About
           </Button>
@@ -41,12 +41,12 @@ export default function NavBar() {
       </div>
 
       <div className="pt-2 flex justify-end space-x-4 w-[100px]">
-        <Link href="/login" key="login-link" prefetch={false}>
+        <Link href="/login" key="login-link" >
           <Button variant="outline" className="rounded-full">
             Login
           </Button>
         </Link>
-        <Link href="/register" key="register-link" prefetch={false}>
+        <Link href="/register" key="register-link" >
           <Button variant="outline" className="rounded-full">
             Register
           </Button>
