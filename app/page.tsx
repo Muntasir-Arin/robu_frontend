@@ -16,7 +16,7 @@ export default function Home() {
           One Bot at a Time
         </p>
       </div>
-      <div className="block duration-1000 fixed bottom-20 right-10">
+      <div className="hidden lg:block duration-1000 fixed bottom-20 right-10">
   <audio autoPlay controls className=" w-[16.5rem]">
     <source src="/background-music.mp3" type="audio/mp3" />
     Your browser does not support the audio tag.
