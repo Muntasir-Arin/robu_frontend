@@ -1,5 +1,4 @@
   "use client";
-  import Cookies from 'js-cookie';
   import { useState } from "react";
   import { useRouter } from "next/navigation";
   import { z, ZodError } from "zod";
@@ -24,7 +23,8 @@ import { toast } from "sonner"
       })
       .min(2, {
         message: "Email must be at least 2 characters.",
-      }),
+      })
+      ,
     password: z
       .string()
       .min(8, {
@@ -67,10 +67,12 @@ import { toast } from "sonner"
 
       try {
         FormSchema.parse(formData);
-        const response = await axios.post(`${process.env.BACKEND_URL}/api/auth/jwt/create/`, {
+        
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/jwt/create/`, {
           email: formData.email,
           password: formData.password,
         });
+        
         if (response.status === 200) {
         // Successful login
         const auth_token = response.data?.access;
@@ -82,11 +84,12 @@ import { toast } from "sonner"
           // Store the token securely (e.g., in localStorage)
           localStorage.setItem('token', auth_token);
           localStorage.setItem('refreshToken', refreshToken);
-          Cookies.set('lastTokenRefresh', new Date().toISOString());
+          localStorage.setItem('lastTokenRefresh', new Date().toISOString());
 
           // Redirect to the homepage
           router.push('/');
         } else {
+          setErrors({});
           // Handle missing token in the response
           console.error('Missing auth_token in response');
           toast.error('Incorrect Email or Password', {
@@ -94,6 +97,8 @@ import { toast } from "sonner"
           })
         }
       } else {
+        setErrors({});
+        
         // Handle error Incorrect Email or Password
         console.error('Login failed');
         toast.error('Incorrect Email or Password', {
@@ -101,7 +106,7 @@ import { toast } from "sonner"
         })
 
       }
-      } catch (error) {
+      } catch (error: any) {
         if (error instanceof ZodError) {
           const newErrors: { [key: string]: string } = {};
           error.errors.forEach((err) => {
@@ -114,10 +119,19 @@ import { toast } from "sonner"
           }, 200);
         }
         else {
-          // Handle Network Error
+          if (error.response.status === 401) {
+            toast.error('Incorrect Email or Password', {
+              description: 'Invalid email or password. Please double-check your credentials and try logging in again.',
+            })
+          }
+          else{
+    
           toast.error('Network Error', {
             description: 'Unable to establish a connection. Please check your network connection and try again.',
           })
+          }
+    
+          setErrors({});
           
         }
       }

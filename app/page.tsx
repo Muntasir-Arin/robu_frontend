@@ -2,7 +2,6 @@ import Banner from "@/components/banner";
 import { Credit } from "@/components/credit";
 import NavBar from "@/components/nav";
 import { ModeToggle } from "@/components/theme-mode";
-
 export default function Home() {
   return (
     <div>

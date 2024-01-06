@@ -1,8 +1,5 @@
 
 import axios, { InternalAxiosRequestConfig } from 'axios';
-import Cookies from 'js-cookie';
-
-
 
 const api = axios.create();
 
@@ -21,9 +18,9 @@ const refreshTokenNow = async (refreshToken: string | null): Promise<string | nu
 
     // Update the stored access token with the new one
     localStorage.setItem('token', newAccessToken);
+    localStorage.setItem('lastTokenRefresh', new Date().toISOString());
 
-    // Update the last refresh time in the cookie
-    Cookies.set('lastTokenRefresh', new Date().toISOString());
+
 
     return newAccessToken;
   } catch (error) {
@@ -40,7 +37,7 @@ api.interceptors.request.use(async (config: InternalAxiosRequestConfig ) => {
   }
 
   // Check if the token is expired or about to expire
-  const lastRefreshTime = Cookies.get('lastTokenRefresh');
+  const lastRefreshTime = localStorage.getItem('lastTokenRefresh');
   const threeDaysAgo = new Date();
   threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
 

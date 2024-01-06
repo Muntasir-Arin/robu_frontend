@@ -6,8 +6,8 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Input } from "@/components/ui/input"
-
-
+import axios from "axios";
+import { toast } from "sonner";
 
 const isLowercase = (value: string) => /[a-z]/.test(value);
 const isUppercase = (value: string) => /[A-Z]/.test(value);
@@ -23,6 +23,8 @@ const FormSchema = z.object({
     })
     .min(2, {
       message: "Email must be at least 2 characters.",
+    }).refine(value => !value.endsWith("g.bracu.ac.bd"), {
+      message: "You cannot use gsuit as your primary mail",
     }),
   password: z
     .string()
@@ -46,6 +48,13 @@ const FormSchema = z.object({
     }),
   organization: z.string().min(2, {
     message: "Organization name must be at least 2 characters.",
+  }).max(25, {
+    message: "Organization name must be at most 25 characters.",
+  }),
+  name: z.string().min(2, {
+    message: "Name must be at least 2 characters.",
+  }).max(25, {
+    message: "Name must be at most 25 characters.",
   }),
 });
 
@@ -57,6 +66,7 @@ const RegisterPage = () => {
     email: "",
     password: "",
     organization: "",
+    name: "",
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -66,15 +76,28 @@ const RegisterPage = () => {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    if (["bracu", "brac u", "brac uni", "bracu uniersity", "brac university"].includes(formData.organization.toLowerCase())) {
+      formData.organization = "Brac University";
+    }
     e.preventDefault();
     setLoading(true);
 
     try {
       FormSchema.parse(formData);
-      // Form data is valid, proceed with registration logic (e.g., API request)
-      console.log("Form submitted:", formData);
-      // Redirect or handle successful registration
-      router.push("/login");
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/users/`, {
+        email: formData.email,
+        password: formData.password,
+        name: formData.name,
+        org: formData.organization,
+      });
+      if (response.status === 201) {
+      router.push("/login");}else {
+        setErrors({});
+
+        toast.error('Network Error', {
+          description: 'Unable to establish a connection. Please check your network connection and try again.',
+        })
+      }
     } catch (error) {
       if (error instanceof ZodError) {
         const newErrors: { [key: string]: string } = {};
@@ -86,6 +109,12 @@ const RegisterPage = () => {
         setTimeout(() => {
           setLoading(false);
         }, 200);
+      }else {
+        setErrors({});
+
+        toast.error('Network Error', {
+          description: 'Unable to establish a connection. Please check your network connection and try again.',
+        })
       }
     }
     setTimeout(() => {
@@ -97,6 +126,21 @@ const RegisterPage = () => {
     <div className="mt-[8rem] max-w-md mx-auto my-8 p-6 rounded-md sm:border">
       <h1 className="text-2xl font-bold mb-4 text-primary">Sign Up</h1>
       <form onSubmit={handleSubmit}>
+      <div className="mb-4">
+          <label className="block text-sm font-semibold text-accent-foreground mb-1">
+            Name :
+          </label>
+
+          <Input  type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange} />
+
+          
+          {errors.name && (
+            <span className="text-destructive text-sm">{errors.name}</span>
+          )}
+        </div>
         <div className="mb-4">
           <label className="block text-sm font-semibold text-accent-foreground mb-1">
             Email:
