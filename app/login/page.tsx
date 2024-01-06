@@ -89,14 +89,14 @@ import { toast } from "sonner"
         } else {
           // Handle missing token in the response
           console.error('Missing auth_token in response');
-          toast.message('Incorrect Email or Password', {
+          toast.error('Incorrect Email or Password', {
             description: 'Invalid email or password. Please double-check your credentials and try logging in again.',
           })
         }
       } else {
         // Handle error Incorrect Email or Password
         console.error('Login failed');
-        toast.message('Incorrect Email or Password', {
+        toast.error('Incorrect Email or Password', {
           description: 'Invalid email or password. Please double-check your credentials and try logging in again.',
         })
 
@@ -115,7 +115,7 @@ import { toast } from "sonner"
         }
         else {
           // Handle Network Error
-          toast.message('Network Error', {
+          toast.error('Network Error', {
             description: 'Unable to establish a connection. Please check your network connection and try again.',
           })
           
