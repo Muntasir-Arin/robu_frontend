@@ -41,12 +41,12 @@ export default function NavBar() {
       </div>
 
       <div className="pt-2 flex justify-end space-x-4 w-[100px]">
-        <Link href="/login" key="login-link">
+        <Link href="/login" key="login-link" prefetch={false}>
           <Button variant="outline" className="rounded-full">
             Login
           </Button>
         </Link>
-        <Link href="/register" key="register-link">
+        <Link href="/register" key="register-link" prefetch={false}>
           <Button variant="outline" className="rounded-full">
             Register
           </Button>
