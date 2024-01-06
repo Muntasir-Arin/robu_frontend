@@ -33,7 +33,7 @@ export default function NavBar() {
             Events
           </Button>
         </Link>
-        <Link href="/">
+        <Link href="#contact">
           <Button variant="ghost" className="rounded-full">
             Contact
           </Button>
