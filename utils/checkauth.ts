@@ -1,32 +1,55 @@
 'use client'
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect, useMemo } from 'react';
+import api from './auth';
 
-const isAuthenticated = /* Fetch authentication status from your backend */ false;
-const position = /* Fetch user's position from your backend */ 'Not a member';
+interface UserData {
+  [key: string]: any;
+}
+const useAuth = () => {
+  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [userData, setUserData] = useState<UserData | null>(null);
 
-export const checkLogin = () => {
-  const router = useRouter();
-  
   useEffect(() => {
-    // If user is not authenticated, redirect to login page
-    if (!isAuthenticated) {
-      router.replace('/login');
-    }
-  }, [isAuthenticated, router]);
+    const checkLoggedIn = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        if (token) {
+          const response = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/update-profile/`);
+          const userData = response.data;
+          setUserData(userData);
+          setLoggedIn(true);
+        } else {
+          setLoggedIn(false);
+        }
+      } catch (error) {
+        console.error("Error checking login status:", error);
+        setLoggedIn(false);
+      }
+    };
 
-  return { position };
+    checkLoggedIn();
+  }, []);
+
+  const memoizedUserData = useMemo(() => userData, [userData]);
+
+  const handleLogin = async (newUserData: UserData) => {
+    setUserData(newUserData);
+    setLoggedIn(true);
+  };
+
+  const handleLogout = async () => {
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('refreshToken');
+      localStorage.removeItem('lastTokenRefresh');
+      setUserData(null);
+      setLoggedIn(false);
+    } catch (error) {
+      console.error('Logout failed:', error);
+    }
+  };
+
+  return { userData: isLoggedIn ? memoizedUserData : null, isLoggedIn, handleLogin, handleLogout };
 };
 
-export const checkNotLogin = () => {
-  const router = useRouter();
-  
-  useEffect(() => {
-    // If user is not authenticated, redirect to login page
-    if (!isAuthenticated) {
-      router.replace('/login');
-    }
-  }, [isAuthenticated, router]);
-
-  return { position };
-};
+export default useAuth;
