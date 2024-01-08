@@ -3,7 +3,7 @@ import React from "react";
 import { Button } from "./ui/button";
 import Image from "next/image";
 import Link from "next/link";
-import { UserNav } from "./userNav";
+import { UserNav } from "./user-nav";
 
 
 export default function NavBar() {

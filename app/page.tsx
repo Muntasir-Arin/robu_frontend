@@ -2,7 +2,7 @@ import About from "@/components/about";
 import Banner from "@/components/banner";
 import { Credit } from "@/components/credit";
 import Contact from "@/components/footer";
-import NavBar from "@/components/nav";
+import NavBar from "@/components/main-nav";
 import Panel from "@/components/panel";
 import { ModeToggle } from "@/components/theme-mode";
 export default function Home() {
