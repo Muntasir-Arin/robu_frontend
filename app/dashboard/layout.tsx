@@ -25,7 +25,7 @@ export default function DashboardLayout({
     >
       <div className="space-y-4 py-4">
         <div className="px-3 py-2">
-          <div className="space-y-1">
+          <div className="space-y-1 ">
             <h2 className="mb-2 px-4 text-xl font-semibold tracking-tight">
               Overview
             </h2>
@@ -34,7 +34,7 @@ export default function DashboardLayout({
         </div>
       </div>
     </nav>
-        <main className="w-full pt-16">{children}</main>
+        <main className="w-full pt-16 overflow-y-auto">{children}</main>
       </div>
     </>
   );

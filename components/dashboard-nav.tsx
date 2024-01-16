@@ -13,7 +13,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
   }
 
   return (
-    <nav className="grid items-start gap-2">
+    <nav className="grid items-start gap-2 ">
       {items.map((item, index) => {
         const Icon = Icons[item.icon || "arrowRight"];
         return (

@@ -1,17 +1,39 @@
 'use client'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/20/solid';
-
+import { Suspense } from 'react'
 export default function Banner() {
-  const [isBannerVisible, setIsBannerVisible] = useState(true);
+  const [isBannerVisible, setIsBannerVisible] = useState<boolean>(false);
+
+  useEffect(() => {
+    // Check if running on the client side
+    if (typeof window !== 'undefined') {
+      const bannerDismissedDate = localStorage.getItem('bannerDismissedDate');
+      if (bannerDismissedDate) {
+        const currentDate = new Date();
+        const parsedDismissedDate = new Date(bannerDismissedDate);
+        const daysSinceDismissal = Math.ceil((currentDate.getTime() - parsedDismissedDate.getTime()) / (1000 * 60 * 60 * 24));
+        if (daysSinceDismissal >= 2) {
+          setIsBannerVisible(true);
+        }
+      }
+      else{
+        setIsBannerVisible(true);
+      }
+    }
+  }, []);
 
   const handleDismiss = () => {
+    // Update state
     setIsBannerVisible(false);
+    // Update local storage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('bannerDismissedDate', new Date().toISOString());
+    }
   };
-
   return (
-    <>
+    <><Suspense>
       {isBannerVisible && (
         <div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-blue-200 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
           <div
@@ -61,6 +83,8 @@ export default function Banner() {
           </div>
         </div>
       )}
+
+</Suspense>
     </>
   );
 }
