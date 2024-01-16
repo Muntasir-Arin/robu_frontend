@@ -23,7 +23,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 const FormSchema = z.object({
   about: z.string().min(30, {
