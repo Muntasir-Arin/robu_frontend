@@ -22,7 +22,6 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "@/components/ui/use-toast";
-import MainNav from "@/components/MainNav";
 import axios from "axios"; // Import Axios
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
@@ -42,7 +41,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const postFormSchema = z.object({
   type: z.string(),
@@ -118,52 +116,18 @@ export function PostForm() {
   };
 
   return (
-    <Card className="mt-10 pt-5 w-[750px]">
-      <CardHeader className="grid justify-items-center">
+    <Card className="mt-10 pt-5 w-[750px] border-0 shadow-none">
+      {/* <CardHeader className="grid justify-items-center">
         <CardTitle className="text-xl">Create Project/Event</CardTitle>
         <CardDescription>
           Deploy your new project or event in one-click.
         </CardDescription>
-      </CardHeader>
+      </CardHeader> */}
       <div className="p-10">
         <CardContent className="grid gap-4 ">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <FormField
-          control={form.control}
-          name="type"
-          render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>Type</FormLabel>
-              <FormControl>
-                <RadioGroup
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                  className="flex flex-row space-x-5"
-                >
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="Project" />
-                    </FormControl>
-                    <FormLabel className="font-normal">
-                      Project
-                    </FormLabel>
-                  </FormItem>
-                  <FormItem className="flex items-center space-x-3 space-y-0">
-                    <FormControl>
-                      <RadioGroupItem value="Event" />
-                    </FormControl>
-                    <FormLabel className="font-normal">
-                      Event
-                    </FormLabel>
-                  </FormItem>
-                  
-                </RadioGroup>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            
               <FormField
                 control={form.control}
                 name="name"

@@ -43,18 +43,15 @@ const FormSchema = z.object({
 
 export default function InputForm() {
   const depts = [
-    { id: "editorial_publications", name: "Editorial and Publications" },
-    { id: "it", name: "IT" },
-    { id: "arts_design", name: "Arts and Design" },
-    { id: "human_resources", name: "Human Resources" },
-    { id: "event_management", name: "Event Management" },
-    { id: "finance_marketing", name: "Finance and Marketing" },
-    {
-      id: "research_project_management",
-      name: "Research and Project Management",
-    },
-    { id: "strategic_planning", name: "Strategic planning" },
-  ];
+    { id: "Editorial and Publications", name: "Editorial and Publications" },
+    { id: "IT", name: "IT" },
+    { id: "Arts and Design", name: "Arts and Design" },
+    { id: "Human Resources", name: "Human Resources" },
+    { id: "Event Management", name: "Event Management" },
+    { id: "Finance and Marketing", name: "Finance and Marketing" },
+    { id: "Research and Project Management", name: "Research and Project Management" },
+    { id: "Strategic planning", name: "Strategic planning" }
+  ]
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
