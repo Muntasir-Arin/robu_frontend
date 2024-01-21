@@ -1,19 +1,26 @@
 "use client";
-import { useRouter } from "next/navigation";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { format } from "date-fns";
-import { useForm, Controller } from 'react-hook-form';
+import { CaretSortIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
-import { Input } from "@/components/ui/input";
+
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import {
   Form,
+  FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormDescription,
-  FormControl,
   FormMessage,
 } from "@/components/ui/form";
 import {
@@ -21,190 +28,279 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { toast } from "@/components/ui/use-toast";
-import axios from "axios"; // Import Axios
-import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
+import { FC, useEffect, useState } from "react";
+import api from "@/utils/auth";
+import { Input } from "@/components/ui/input";
 
-const postFormSchema = z.object({
-  type: z.string(),
-  name: z.string().min(2).max(100),
-  info: z.string().min(2).max(255),
-  budget: z.string(),
-  avatar: z.object({ file: z.unknown().nullable() }).nullable(),
+
+const FormSchema = z.object({
+  name: z.string(),
+  dateOfBirth: z.string(),
+  phone: z.string(),
+  organization: z.string(),
+  bloodGroup: z.string().optional(),
+  gender: z.string(),
+  facebookLink: z.string(),
+  instagramLink: z.string().optional(),
+  linkedin: z.string().optional(),
+  bracuJoiningDate: z.string().optional(),
+  studentId: z.string().optional(),
+  rsStatus: z.string().optional(),
+  gsuitEmail: z.string().optional(),
 });
 
-type postFormValues = z.infer<typeof postFormSchema>;
+export default function page() {
+  const [loading, setLoading] = useState(false);
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
+  });
 
-const defaultValues: Partial<postFormValues> = {
-  // ... your default values
-};
-
-export function PostForm() {
-  const form = useForm<postFormValues>();
-  const router = useRouter();
-
-  const onSubmit = async (data: postFormValues) => {
-    
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
-      const formData = new FormData();
+      setLoading(true);
+      const response = await api.patch(
+        `http://127.0.0.1:8000/api/applicants/${"hello"}/interview/`,
+        {
+          // Add other fields as needed
+        }
+      );
 
-      // Append fields to formData
-      formData.append("name", data.name);
-      formData.append("info", data.info);
-      formData.append("budget", data.budget);
+      console.log("Successfully updated:", response.data);
 
-      // Append avatar if it exists
-      if (data.avatar?.file instanceof File) {
-        formData.append("photos", data.avatar.file);
-      }
-
-      const accessToken = localStorage.getItem("token");
-
-      // Ensure that localStorage is available before using it
-      console.log(formData)
-      if (accessToken) {
-        
-        // Use Axios to send the form data to your API
-        await axios.post(
-          
-          data.type === "Project"
-            ? "http://127.0.0.1:8000/api/project/"
-            : "http://127.0.0.1:8000/api/event/",
-          formData,
-          {
-            headers: {
-              Authorization: `JWT ${accessToken}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        router.back();
-
-        toast({
-          title: "Profile Updated",
-          description: "Your profile has been successfully updated.",
-        });
-      } else {
-        router.refresh();
-        console.error("Access token not found in localStorage.");
-      }
+      // Add any additional logic you need after a successful update
     } catch (error) {
-      router.refresh();
-      console.error("Error updating profile:", error);
-      toast({
-        title: "Error",
-        description: "An error occurred while updating your profile.",
-      });
+      console.error("Error updating values:", error);
+      // Handle the error as needed
+    } finally {
+      setLoading(false); // Set loading to false once the update is complete
     }
   };
 
   return (
-    <Card className="mt-10 pt-5 w-[750px] border-0 shadow-none">
-      {/* <CardHeader className="grid justify-items-center">
-        <CardTitle className="text-xl">Create Project/Event</CardTitle>
-        <CardDescription>
-          Deploy your new project or event in one-click.
-        </CardDescription>
-      </CardHeader> */}
-      <div className="p-10">
-        <CardContent className="grid gap-4 ">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <Input
-                      placeholder="Name of your project/Event"
-                      {...field}
-                    />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="info"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Info</FormLabel>
-                    <Textarea
-                      placeholder="Project/Event information"
-                      {...field}
-                    />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="budget"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Budget Amount</FormLabel>
-                    <Input
-                      type="number"
-                      placeholder="Budget amount"
-                      {...field}
-                    />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="avatar"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Image</FormLabel>
-                    <Input
-                      type="file"
-                      onChange={(e) =>
-                        field.onChange({ file: e.target.files?.[0] || null })
-                      }
-                    />
-                  </FormItem>
-                )}
-              />
-              <div className="flex justify-between pt-10">
-                <Button
-                  variant="outline"
-                  type="button"
-                  onClick={() => router.back()}
-                >
-                  Cancel
-                </Button>
-                <Button type="submit">Submit for Approval</Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </div>
-    </Card>
-  );
-}
+    <div className="w-full">
+<div className="mx-auto lg:w-2/4 w-3/4 my-10  ">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <Input placeholder="Enter your name" {...field} />
+                <FormDescription>Provide your full name.</FormDescription>
+              </FormItem>
+            )}
+          />
 
-export default function AccountPage() {
-  return (
-    <div className="flex justify-center">
-      <PostForm />
+          <FormField
+            control={form.control}
+            name="dateOfBirth"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Date of Birth</FormLabel>
+                <Input
+                  type="date"
+                  placeholder="Select your date of birth"
+                  {...field}
+                />
+                <FormDescription>
+                  Please select your date of birth.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone</FormLabel>
+                <Input placeholder="Enter your phone number" {...field} />
+                <FormDescription>
+                  Provide your contact phone number.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="organization"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Organization</FormLabel>
+                <Input placeholder="Enter your organization" {...field} />
+                <FormDescription>
+                  Specify the organization you belong to.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+
+{true && (
+        <div className="grid gap-y-6">
+          
+          <FormField
+            control={form.control}
+            name="bracuJoiningDate"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Bracu Joining Date</FormLabel>
+                <Input
+                  type="date"
+                  placeholder="Select your Bracu joining date"
+                  {...field}
+                />
+                <FormDescription>
+                  Please select your Bracu joining date.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="studentId"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Student ID</FormLabel>
+                <Input
+                  placeholder="Enter your student ID"
+                  {...field}
+                />
+                <FormDescription>
+                  Provide your student ID.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="rsStatus"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>RS Status</FormLabel>
+                <Input
+                  placeholder="Enter your RS status"
+                  {...field}
+                />
+                <FormDescription>
+                  Specify your RS status.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="gsuitEmail"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Gsuit Email</FormLabel>
+                <Input
+                  placeholder="Enter your Gsuit email"
+                  {...field}
+                />
+                <FormDescription>
+                  Provide your Gsuit email.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+        </div>
+      )}
+
+
+          <FormField
+            control={form.control}
+            name="bloodGroup"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Blood Group</FormLabel>
+                <Input placeholder="Enter your blood group" {...field} />
+                <FormDescription>
+                  Optional: Provide your blood group if known.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="gender"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Gender</FormLabel>
+                <Input placeholder="Enter your gender" {...field} />
+                <FormDescription>Specify your gender.</FormDescription>
+              </FormItem>
+            )}
+          />
+
+          
+
+          <FormField
+            control={form.control}
+            name="facebookLink"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Facebook Link</FormLabel>
+                <Input placeholder="Enter your Facebook link" {...field} />
+                <FormDescription>
+                  Provide the link to your Facebook profile.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="instagramLink"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Instagram Link</FormLabel>
+                <Input placeholder="Enter your Instagram link" {...field} />
+                <FormDescription>
+                  Optional: Provide the link to your Instagram profile.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="linkedin"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>LinkedIn</FormLabel>
+                <Input placeholder="Enter your LinkedIn" {...field} />
+                <FormDescription>
+                  Optional: Provide the link to your LinkedIn profile.
+                </FormDescription>
+              </FormItem>
+            )}
+          />
+
+
+
+
+          {loading ? (
+            <Button disabled className="w-full mt-2">
+              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+              Please wait
+            </Button>
+          ) : (
+            <Button type="submit" className="w-full mt-2">
+              Submit
+            </Button>
+          )}
+        </form>
+      </Form>
+    </div>
+
     </div>
   );
 }

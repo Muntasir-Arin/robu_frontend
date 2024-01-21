@@ -1,19 +1,19 @@
-"use client"
- 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { CaretSortIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
- 
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { CaretSortIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Form,
   FormControl,
@@ -22,16 +22,16 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
+} from "@/components/ui/form";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { FC, useEffect, useState } from "react"
-import api from "@/utils/auth"
-import { Textarea } from "./ui/textarea"
- 
+} from "@/components/ui/popover";
+import { FC, useEffect, useState } from "react";
+import api from "@/utils/auth";
+import { Textarea } from "./ui/textarea";
+
 const departments = [
   { label: "Editorial and Publications", value: "Editorial and Publications" },
   { label: "IT", value: "IT" },
@@ -39,9 +39,12 @@ const departments = [
   { label: "Human Resources", value: "Human Resources" },
   { label: "Event Management", value: "Event Management" },
   { label: "Finance and Marketing", value: "Finance and Marketing" },
-  { label: "Research and Project Management", value: "Research and Project Management" },
-  { label: "Strategic planning", value: "Strategic planning" }
-] as const
+  {
+    label: "Research and Project Management",
+    value: "Research and Project Management",
+  },
+  { label: "Strategic planning", value: "Strategic planning" },
+] as const;
 
 const status = [
   { label: "Selected", value: "Selected" },
@@ -50,7 +53,7 @@ const status = [
 ] as const;
 
 interface InterviewStatusSubmitProps {
-  defaultValues : any;
+  defaultValues: any;
 }
 
 const FormSchema = z.object({
@@ -59,8 +62,10 @@ const FormSchema = z.object({
   Feedback: z.string(),
 });
 
-const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({ defaultValues }) => {
-  const custom_id = defaultValues?.custom_id
+const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({
+  defaultValues,
+}) => {
+  const custom_id = defaultValues?.custom_id;
   const [loading, setLoading] = useState(true);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -71,9 +76,9 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({ defaultValues }
       try {
         // Map the API response keys to the form field names
         const mappedDefaultValues = {
-          Department: defaultValues.assigned_department || '',
-          Status: defaultValues.status || '',
-          Feedback: defaultValues.feedback || '',
+          Department: defaultValues.assigned_department || "",
+          Status: defaultValues.status || "",
+          Feedback: defaultValues.feedback || "",
         };
 
         form.reset(mappedDefaultValues);
@@ -90,25 +95,27 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({ defaultValues }
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
       setLoading(true);
-      const response = await api.patch(`http://127.0.0.1:8000/api/applicants/${custom_id}/interview/`, {
-        assigned_department: data.Department,
-        status: data.Status,
-        feedback:data.Feedback,
-        // Add other fields as needed
-      });
-  
+      const response = await api.patch(
+        `http://127.0.0.1:8000/api/applicants/${custom_id}/interview/`,
+        {
+          assigned_department: data.Department,
+          status: data.Status,
+          feedback: data.Feedback,
+          // Add other fields as needed
+        }
+      );
+
       console.log("Successfully updated:", response.data);
-  
+
       // Add any additional logic you need after a successful update
     } catch (error) {
       console.error("Error updating values:", error);
       // Handle the error as needed
-    }
-    finally {
+    } finally {
       setLoading(false); // Set loading to false once the update is complete
     }
   };
- 
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -118,7 +125,7 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({ defaultValues }
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Interview Status</FormLabel>
-              <Popover >
+              <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
@@ -130,22 +137,22 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({ defaultValues }
                       )}
                     >
                       {field.value
-      ? status.find((Status) => Status.value === field.value)?.label
-      : "Awaiting Interview"}
+                        ? status.find((Status) => Status.value === field.value)
+                            ?.label
+                        : "Awaiting Interview"}
                       <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
                   <Command className=" xl:w-[15rem] ">
-                    
                     <CommandGroup>
                       {status.map((Status) => (
                         <CommandItem
                           value={Status.label}
                           key={Status.value}
                           onSelect={() => {
-                            form.setValue("Status", Status.value)
+                            form.setValue("Status", Status.value);
                           }}
                         >
                           {Status.label}
@@ -164,14 +171,14 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({ defaultValues }
                 </PopoverContent>
               </Popover>
               <FormDescription>
-              Select the current status of an applicant's interview process.
+                Select the current status of an applicant's interview process.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
-<FormField
+        <FormField
           control={form.control}
           name="Department"
           render={({ field }) => (
@@ -189,8 +196,10 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({ defaultValues }
                       )}
                     >
                       {field.value
-      ? departments.find((Department) => Department.value === field.value)?.label
-      : "Select Department"}
+                        ? departments.find(
+                            (Department) => Department.value === field.value
+                          )?.label
+                        : "Select Department"}
                       <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                     </Button>
                   </FormControl>
@@ -208,7 +217,7 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({ defaultValues }
                           value={Department.label}
                           key={Department.value}
                           onSelect={() => {
-                            form.setValue("Department", Department.value)
+                            form.setValue("Department", Department.value);
                           }}
                         >
                           {Department.label}
@@ -227,47 +236,45 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({ defaultValues }
                 </PopoverContent>
               </Popover>
               <FormDescription>
-              This selection is based on an applicant's skills, preferences, and the organizational structure.
-                
+                This selection is based on an applicant's skills, preferences,
+                and the organizational structure.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
-<FormField
-                control={form.control}
-                name="Feedback"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Feedback</FormLabel>
-                    <Textarea
-                      placeholder="Share your feedback about the interviewee's performance and qualities."
-                      {...field}
-                    />
-                    <FormDescription>
-                    Provide info about the Interviewee (if common account: add interviewer name and dept. info at last)
-                
-              </FormDescription>
-                  </FormItem>
-                )}
+        <FormField
+          control={form.control}
+          name="Feedback"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Feedback</FormLabel>
+              <Textarea
+                placeholder="Share your feedback about the interviewee's performance and qualities."
+                {...field}
               />
+              <FormDescription>
+                Provide info about the Interviewee (if common account: add
+                interviewer name and dept. info at last)
+              </FormDescription>
+            </FormItem>
+          )}
+        />
 
         {loading ? (
-            <Button disabled className="w-full">
-              <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
-              Please wait
-            </Button>
-          ) : (
-            <Button type="submit" className="w-full">
-              Submit
-            </Button>
-          )}
+          <Button disabled className="w-full">
+            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            Please wait
+          </Button>
+        ) : (
+          <Button type="submit" className="w-full">
+            Submit
+          </Button>
+        )}
       </form>
     </Form>
-  )
-}
-
-
+  );
+};
 
 export default InterviewStatusSubmit;

@@ -60,3 +60,44 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.marquee-angled {
+  white-space: nowrap;
+  position: relative;
+  transform: rotate(30deg);
+  transform-origin: 0 100%;
+  animation: marquee 30s linear infinite;
+}
+
+.marquee-angled-reversed {
+  white-space: nowrap;
+    position: relative;
+    transform: rotate(30deg);
+    transform-origin: 0 100%;
+    animation: marquee-reversed 30s linear infinite;
+}
+
+@keyframes marquee {
+  0% {
+    transform: rotate(30deg) translateX(150%);
+}
+50% {
+  transform: rotate(30deg) translateX(-150%);
+}
+100% {
+    transform: rotate(30deg) translateX(150%);
+}
+}
+
+@keyframes marquee-reversed {
+  0% {
+      transform: rotate(30deg) translateX(-150%);
+  }
+  50% {
+    transform: rotate(30deg) translateX(150%);
+}
+  100% {
+      transform: rotate(30deg) translateX(-150%);
+  }
+}
