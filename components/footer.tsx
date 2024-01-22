@@ -1,8 +1,14 @@
+'use client'
+
+import { useState } from "react"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
+import { toast } from "sonner"
 
 function Footerlinks() {
+
+
     return (
   
   <div className="flex mb-4  ">
@@ -62,6 +68,43 @@ function Footerlinks() {
   }
 
   function Contact() {
+    const [result, setResult] = useState("");
+
+    const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setResult('Sending....');
+  
+      const formData = new FormData(event.currentTarget);
+      formData.append('access_key', process.env.NEXT_PUBLIC_WEBTHREEFORMS || '');  
+
+      try {
+        const res = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          body: formData,
+        });
+  
+        const data = await res.json();
+  
+        if (data.success) {
+          toast.success('Form Submitted Successfully', {
+            description: "Your form has been submitted and received. We'll get back to you shortly!",
+          });
+          setResult(data.message);
+        } else {
+          setResult(data.message);
+          toast.error('Network Error', {
+            description: 'Unable to establish a connection. Please check your network connection and try again.',
+          })
+        }
+      } catch (error) {
+        console.error('Error', error);
+        toast.error('Network Error', {
+          description: 'Unable to establish a connection. Please check your network connection and try again.',
+        })
+      }
+    };
+
+
     return (<div id="contact" className='scroll-mt-[4rem] lg:scroll-mt-0'>
   <section className=" relative  overflow-hidden bg-zinc-200 dark:bg-zinc-900 py-20 lg:py-[96px]">
     <div className="container mx-auto px-7">
@@ -154,9 +197,10 @@ function Footerlinks() {
         </div>
         <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
           <div className="relative rounded-lg lg:mt-16 bg-zinc-100 dark:bg-zinc-800  py-8 px-6 shadow-xl sm:p-12 ">
-            <form>
+            <form onSubmit={onSubmit}>
               <div className="mb-6">
                 <Input
+                  name="name"
                   type="text"
                   required
                   placeholder="Your Name"
@@ -165,6 +209,7 @@ function Footerlinks() {
               </div>
               <div className="mb-6">
                 <Input
+                  name="email"
                   type="email"
                   required
                   placeholder="Your Email"
@@ -174,12 +219,16 @@ function Footerlinks() {
               <div className="mb-6">
                 <Input
                   type="text"
+                  name="phone"
                   placeholder="Your Phone"
                   className="  w-full  py-3 px-[14px]  dark:bg-zinc-800 dark:border-zinc-100"
                 />
               </div>
               <div className="mb-6">
+              <Input type="hidden" name="subject" value="Form Submission Alert: ROBU Website"/>
+              <Input type="hidden" name="from_name" value="ROBU Website"/>
                 <Textarea 
+                  name="message"
                   rows={6}
                   required
                   placeholder="Your Message"
