@@ -171,7 +171,7 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({
                 </PopoverContent>
               </Popover>
               <FormDescription>
-                Select the current status of an applicant's interview process.
+                Select the current status of an applicant&apos;s interview process.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -236,7 +236,7 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({
                 </PopoverContent>
               </Popover>
               <FormDescription>
-                This selection is based on an applicant's skills, preferences,
+                This selection is based on an applicant&apos;s skills, preferences,
                 and the organizational structure.
               </FormDescription>
               <FormMessage />
