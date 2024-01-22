@@ -19,7 +19,7 @@ const SearhSchema = z.object({
   }),
 });
 
-export default function page() {
+export default function Page() {
   const [loading, setLoading] = useState(true);
   const [dValues, setdValues] = useState<{
     assigned_department: string | null;

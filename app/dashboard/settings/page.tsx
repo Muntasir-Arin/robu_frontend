@@ -35,7 +35,7 @@ const FormSchema = z.object({
   secondary_email: z.string()
 });
 
-export default function page() {
+export default function Page() {
   const router = useRouter();
   const { userData } = useAuth();
   const [loading, setLoading] = useState(false);

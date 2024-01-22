@@ -10,7 +10,7 @@ import {
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-export default function page() {
+export default function Page() {
   return (
     <div className="flex items-center justify-center h-screen">
       <div className="text-center mt-[-10rem] px-8">

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function loading() {
+export default function Loading() {
   return (
     <div className='flex space-x-2 justify-center items-end  h-1/2 dark:invert'>
  	<span className='sr-only'>Loading...</span>
