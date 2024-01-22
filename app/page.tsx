@@ -10,21 +10,22 @@ import { Suspense } from "react";
 export default function Home() {
   return (
     <div>
-
       <Banner />
       <NavBar />
       
 
       
 
-      <div className="relative z-[-999rem] top-0 h-dvh ">
+      <div className="absolute top-0 h-dvh -z-50 overflow-hidden">
       <Suspense fallback={<div className="w-full h-dvh"></div>}>
-      <video autoPlay muted loop className="w-full h-dvh object-cover hidden dark:block">
+      <video autoPlay muted loop className="w-full object-cover hidden dark:block">
         <source src="/bg.webm" type="video/webm" />
       </video>
       </Suspense>
-      <div className="absolute inset-0 flex  justify-center">
-      <div className=" w-screen mt-20 lg:mt-28">
+
+      </div>
+
+        <HeroCarousel/>
       
         {/* <div>
         <p className="text-center text-[2.5rem] sm:text-4xl lg:text-5xl font-black uppercase text-white">
@@ -34,10 +35,9 @@ export default function Home() {
           One Bot at a Time
         </p>
         </div> */}
-        <HeroCarousel/>
-      </div>
-      </div>
-    </div>
+       
+      
+
 
       
 

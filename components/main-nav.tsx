@@ -13,8 +13,9 @@ export default function NavBar() {
   const { handleLogout, isLoggedIn, userData } = useAuth();
   const [showMenu, setShowMenu] = useState(false);
   return (
- <div className="fixed z-50 w-full">
-    <div className=" dark:bg-transparent bg-background border-white border-opacity-40 md:shadow-none shadow-lg shadow-black/[0.03] backdrop-blur-[0.5rem] sticky top-0 z-10 flex justify-between items-center p-3 lg:p-4 lg:px-20 px-7 lg:pt-8 min-h-[4.2rem] ">
+
+
+    <div className=" bg-transparent border-white border-opacity-40 md:shadow-none shadow-lg shadow-black/[0.03] backdrop-blur-[0.5rem] sticky top-0 z-10 flex justify-between items-center p-3 lg:p-4 lg:px-20 px-7 lg:pt-8 min-h-[4.2rem] ">
       <div className="hidden lg:flex justify-start w-[100px]">
         <Link href="/" key="home-link">
           <Image src="/robu.svg" alt="Logo" width={48} height={48} />
@@ -169,7 +170,6 @@ export default function NavBar() {
 
       </nav>
     
-    </div>
     </div>
   );
 }
