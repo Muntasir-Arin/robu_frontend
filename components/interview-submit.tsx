@@ -90,7 +90,13 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({
     };
 
     fetchDefaultValues();
-  }, [custom_id, form]);
+  }, [
+    custom_id,
+    form,
+    defaultValues.assigned_department,
+    defaultValues.status,
+    defaultValues.feedback,
+  ]);
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
@@ -171,7 +177,8 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({
                 </PopoverContent>
               </Popover>
               <FormDescription>
-                Select the current status of an applicant&apos;s interview process.
+                Select the current status of an applicant&apos;s interview
+                process.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -236,8 +243,8 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({
                 </PopoverContent>
               </Popover>
               <FormDescription>
-                This selection is based on an applicant&apos;s skills, preferences,
-                and the organizational structure.
+                This selection is based on an applicant&apos;s skills,
+                preferences, and the organizational structure.
               </FormDescription>
               <FormMessage />
             </FormItem>
