@@ -33,7 +33,7 @@ export default function page() {
       try {
         setLoading(true);
         const response = await api.get(
-          `http://127.0.0.1:8000/api/applicants/${customId}/interview/`
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/applicants/${customId}/interview/`
         );
         const values = response.data;
         setdValues(values);
@@ -72,7 +72,7 @@ export default function page() {
 
   const onSubmit = (data: z.infer<typeof SearhSchema>) => {
     const studentID = data.studentID;
-    const semester = "spring20699";
+    const semester = "spring24";
     if (studentID) {
       const newCustomId = `${studentID}_${semester}`;
       setCustomId(newCustomId);

@@ -25,7 +25,7 @@ export default function Home() {
       
 
       <ModeToggle />
-      <Credit />
+      {/* <Credit /> */}
     </div>
   );
 }

@@ -1,71 +1,83 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CaretSortIcon, CheckIcon, ReloadIcon } from "@radix-ui/react-icons";
+import { ReloadIcon } from "@radix-ui/react-icons";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-} from "@/components/ui/command";
-import {
   Form,
-  FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { FC, useEffect, useState } from "react";
-import api from "@/utils/auth";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
-
+import axios from "axios";
+import useAuth from "@/utils/checkauth";
+import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
   name: z.string(),
-  dateOfBirth: z.string(),
-  phone: z.string(),
-  organization: z.string(),
-  bloodGroup: z.string().optional(),
+  date_of_birth: z.string(),
+  phone_number: z.string(),
+  org: z.string(),
+  blood_group: z.string(),
   gender: z.string(),
-  facebookLink: z.string(),
-  instagramLink: z.string().optional(),
-  linkedin: z.string().optional(),
-  bracuJoiningDate: z.string().optional(),
-  studentId: z.string().optional(),
-  rsStatus: z.string().optional(),
-  gsuitEmail: z.string().optional(),
+  facebook_profile: z.string(),
+  insta_link: z.string().nullable(),
+  linkedin_link: z.string().nullable(),
+  bracu_start: z.string(),
+  student_id: z.string(),
+  rs_status: z.string(),
+  secondary_email: z.string()
 });
 
 export default function page() {
+  const router = useRouter();
+  const { userData } = useAuth();
   const [loading, setLoading] = useState(false);
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
+  useEffect(() => {
+    if (userData) {
+      form.reset(userData);
+    }
+  }, [userData, form]);
 
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     try {
       setLoading(true);
-      const response = await api.patch(
-        `http://127.0.0.1:8000/api/applicants/${"hello"}/interview/`,
-        {
-          // Add other fields as needed
-        }
-      );
 
-      console.log("Successfully updated:", response.data);
+      if (data?.org && ["bracu", "brac u", "brac uni", "bracu university", "brac university"].includes(data.org.toLowerCase())) {
+        data.org = "Brac University";
+      }
+
+      const accessToken = localStorage.getItem("token");
+
+      console.log(data)
+
+      // Ensure that localStorage is available before using it
+      if (accessToken) {
+        // Use Axios to send the form data to your API
+        await axios.patch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/update-profile/`, data, {
+          headers: {
+            Authorization: `JWT ${accessToken}`,
+            "Content-Type": "multipart/form-data",
+          },
+        });
+
+        router.push('/dashboard/recruit/');
+
+      } else {
+        console.error("Access token not found in localStorage.");
+      }
+      
+
+      console.log("Successfully updated:", data);
 
       // Add any additional logic you need after a successful update
     } catch (error) {
@@ -93,9 +105,28 @@ export default function page() {
             )}
           />
 
+{/* <FormField
+          control={form.control}
+          name="avatar"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Profile Image</FormLabel>
+              <Input
+                type="file"
+                onChange={(e) =>
+                  field.onChange({ file: e.target.files?.[0] || null })
+                }
+              />
+              <FormDescription>
+                Upload a profile image (optional).
+              </FormDescription>
+            </FormItem>
+          )}
+        /> */}
+
           <FormField
             control={form.control}
-            name="dateOfBirth"
+            name="date_of_birth"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Date of Birth</FormLabel>
@@ -113,7 +144,7 @@ export default function page() {
 
           <FormField
             control={form.control}
-            name="phone"
+            name="phone_number"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Phone</FormLabel>
@@ -127,7 +158,7 @@ export default function page() {
 
           <FormField
             control={form.control}
-            name="organization"
+            name="org"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Organization</FormLabel>
@@ -139,12 +170,12 @@ export default function page() {
             )}
           />
 
-{true && (
+{userData?.org == "Brac University" && (
         <div className="grid gap-y-6">
           
           <FormField
             control={form.control}
-            name="bracuJoiningDate"
+            name="bracu_start"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Bracu Joining Date</FormLabel>
@@ -162,7 +193,7 @@ export default function page() {
 
           <FormField
             control={form.control}
-            name="studentId"
+            name="student_id"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Student ID</FormLabel>
@@ -179,7 +210,7 @@ export default function page() {
 
           <FormField
             control={form.control}
-            name="rsStatus"
+            name="rs_status"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>RS Status</FormLabel>
@@ -196,7 +227,7 @@ export default function page() {
 
           <FormField
             control={form.control}
-            name="gsuitEmail"
+            name="secondary_email"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Gsuit Email</FormLabel>
@@ -216,7 +247,7 @@ export default function page() {
 
           <FormField
             control={form.control}
-            name="bloodGroup"
+            name="blood_group"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Blood Group</FormLabel>
@@ -244,7 +275,7 @@ export default function page() {
 
           <FormField
             control={form.control}
-            name="facebookLink"
+            name="facebook_profile"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Facebook Link</FormLabel>
@@ -256,33 +287,34 @@ export default function page() {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="instagramLink"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Instagram Link</FormLabel>
-                <Input placeholder="Enter your Instagram link" {...field} />
-                <FormDescription>
-                  Optional: Provide the link to your Instagram profile.
-                </FormDescription>
-              </FormItem>
-            )}
-          />
+<FormField
+  control={form.control}
+  name="insta_link"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Instagram Link</FormLabel>
+      <Input placeholder="Enter your Instagram link" {...field} value={field.value || ''} />
+      <FormDescription>
+        Optional: Provide the link to your Instagram profile.
+      </FormDescription>
+    </FormItem>
+  )}
+/>
 
-          <FormField
-            control={form.control}
-            name="linkedin"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>LinkedIn</FormLabel>
-                <Input placeholder="Enter your LinkedIn" {...field} />
-                <FormDescription>
-                  Optional: Provide the link to your LinkedIn profile.
-                </FormDescription>
-              </FormItem>
-            )}
-          />
+<FormField
+  control={form.control}
+  name="linkedin_link"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>LinkedIn</FormLabel>
+      <Input placeholder="Enter your LinkedIn" {...field} value={field.value || ''} />
+      <FormDescription>
+        Optional: Provide the link to your LinkedIn profile.
+      </FormDescription>
+    </FormItem>
+  )}
+/>
+
 
 
 

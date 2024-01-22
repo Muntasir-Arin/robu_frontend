@@ -10,7 +10,7 @@ const refreshTokenNow = async (refreshToken: string | null): Promise<string | nu
   }
 
   try {
-    const response = await api.post(`${process.env.BACKEND_URL}/api/auth/jwt/refresh/`, {
+    const response = await api.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/jwt/refresh/`, {
       refresh: refreshToken,
     });
 

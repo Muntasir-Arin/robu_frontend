@@ -6,7 +6,7 @@ import { DashboardNavProps, Icons } from "@/constants/dashboard";
 import useAuth from "@/utils/checkauth";
 export function DashboardNav({ items, setOpen }: DashboardNavProps) {
   const path = usePathname();
-  const {handleLogout} = useAuth()
+  const {handleLogout, userData} = useAuth()
 
   if (!items?.length) {
     return null;
@@ -16,7 +16,9 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
     <nav className="grid items-start gap-2 ">
       {items.map((item, index) => {
         const Icon = Icons[item.icon || "arrowRight"];
-        return (
+        console.log(userData?.is_admin)
+        const condition = userData?.is_admin || (userData?.position && item.permissions.includes(userData.position))|| (userData?.position && item.permissions.includes('all'));
+        return condition ? (
           item.href && (
             <Link
               key={index}
@@ -37,7 +39,7 @@ export function DashboardNav({ items, setOpen }: DashboardNavProps) {
               </span>
             </Link>
           )
-        );
+        ) : null;
       })}
 
       <Link

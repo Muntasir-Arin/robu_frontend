@@ -39,21 +39,23 @@ export function UserNav() {
 
     <DropdownMenuContent className="w-56 z-[100] mr-24 mt-1">
       <DropdownMenuGroup>
-        <Link href={`/profile/${userData?.student_id}`}>
+        {/* <Link href={`/profile/${userData?.student_id}`}>
           <DropdownMenuItem>
             Profile
             <DropdownMenuShortcut>⌘</DropdownMenuShortcut>
           </DropdownMenuItem>
-        </Link>
-        <Link href="/dashboard/settings">
-          <DropdownMenuItem>
-            Settings
-            <DropdownMenuShortcut>⌘</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </Link>
+        </Link> */}
+        
         <Link href="/dashboard">
           <DropdownMenuItem>
             Dashboard
+            <DropdownMenuShortcut>⌘</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </Link>
+
+        <Link href="/dashboard/settings">
+          <DropdownMenuItem>
+            Settings
             <DropdownMenuShortcut>⌘</DropdownMenuShortcut>
           </DropdownMenuItem>
         </Link>

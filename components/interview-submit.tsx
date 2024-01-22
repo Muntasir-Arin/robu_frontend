@@ -96,7 +96,7 @@ const InterviewStatusSubmit: FC<InterviewStatusSubmitProps> = ({
     try {
       setLoading(true);
       const response = await api.patch(
-        `http://127.0.0.1:8000/api/applicants/${custom_id}/interview/`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/applicants/${custom_id}/interview/`,
         {
           assigned_department: data.Department,
           status: data.Status,

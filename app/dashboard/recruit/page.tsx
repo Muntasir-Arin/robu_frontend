@@ -23,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
+import api from "@/utils/auth";
 
 const FormSchema = z.object({
   about: z.string().min(30, {
@@ -64,7 +65,7 @@ export default function InputForm() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
+  const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     if (
       data.dept1 === data.dept2 ||
       data.dept2 === data.dept3 ||
@@ -109,14 +110,28 @@ export default function InputForm() {
       return;
     }
 
-    toast.error("asdj", {
-      description:
-        "Invalid email or password. Please double-check your credentials and try logging in again.",
-    });
+    try {
+      const response = await api.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/applicants/`, {
+        about: data.about,
+        drive_link: data.project,
+        dept_choice: [data.dept1, data.dept2, data.dept3].join(','),
+        semester: "spring24",
+      });
 
-    console.log(data);
-  }
-
+      if (response.status === 201) {
+        toast.message('Yayyyy', {
+          description: '',
+        });
+      } else {
+        toast.error('Network Error', {
+          description: 'Unable to establish a connection. Please check your network connection and try again.',
+        });
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('An error occurred. Please try again later.');
+    }
+  };
   return (
     <Form {...form}>
       <form

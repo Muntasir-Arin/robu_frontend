@@ -1,3 +1,7 @@
+import { Button } from "./ui/button"
+import { Input } from "./ui/input"
+import { Textarea } from "./ui/textarea"
+
 function Footerlinks() {
     return (
   
@@ -59,7 +63,7 @@ function Footerlinks() {
 
   function Contact() {
     return (<div id="contact" className='scroll-mt-[4rem] lg:scroll-mt-0'>
-  <section className=" relative  overflow-hidden bg-zinc-200 dark:bg-zinc-900 py-20 lg:py-[90px]">
+  <section className=" relative  overflow-hidden bg-zinc-200 dark:bg-zinc-900 py-20 lg:py-[96px]">
     <div className="container mx-auto px-7">
       <div className="-mx-4 flex flex-wrap lg:justify-between">
         <div className="w-full px-4 lg:w-1/2 xl:w-6/12">
@@ -149,46 +153,46 @@ function Footerlinks() {
           </div>
         </div>
         <div className="w-full px-4 lg:w-1/2 xl:w-5/12">
-          <div className="relative rounded-lg lg:mt-6 bg-zinc-100 dark:bg-zinc-800  py-8 px-6 shadow-xl sm:p-12">
+          <div className="relative rounded-lg lg:mt-16 bg-zinc-100 dark:bg-zinc-800  py-8 px-6 shadow-xl sm:p-12 ">
             <form>
               <div className="mb-6">
-                <input
+                <Input
                   type="text"
                   required
                   placeholder="Your Name"
-                  className=" text-body-color border-[f0f0f0] focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none"
+                  className="  w-full  py-3 px-[14px]  dark:bg-zinc-800 dark:border-zinc-100"
                 />
               </div>
               <div className="mb-6">
-                <input
+                <Input
                   type="email"
                   required
                   placeholder="Your Email"
-                  className=" text-body-color border-[f0f0f0] focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none"
+                  className="  w-full  py-3 px-[14px]  dark:bg-zinc-800 dark:border-zinc-100"
                 />
               </div>
               <div className="mb-6">
-                <input
+                <Input
                   type="text"
                   placeholder="Your Phone"
-                  className=" text-body-color border-[f0f0f0] focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none"
+                  className="  w-full  py-3 px-[14px]  dark:bg-zinc-800 dark:border-zinc-100"
                 />
               </div>
               <div className="mb-6">
-                <textarea
+                <Textarea 
                   rows={6}
                   required
                   placeholder="Your Message"
-                  className="  text-body-color border-[f0f0f0] focus:border-primary w-full resize-none rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none"
-                ></textarea>
+                  className="   w-full resize-none  py-3 px-[14px] dark:bg-zinc-800 dark:border-zinc-100 "
+                ></Textarea >
               </div>
               <div>
-                <button
+                <Button
                   type="submit"
-                  className=" border-primary w-full rounded border p-3  transition hover:bg-zinc-700"
+                  className=" w-full "
                 >
                   Send Message
-                </button>
+                </Button>
               </div>
             </form>
           </div>

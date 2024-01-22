@@ -119,7 +119,7 @@ import { toast } from "sonner"
           }, 200);
         }
         else {
-          if (error.response.status === 401) {
+          if (error?.response?.status === 401) {
             toast.error('Incorrect Email or Password', {
               description: 'Invalid email or password. Please double-check your credentials and try logging in again.',
             })

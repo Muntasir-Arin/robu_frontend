@@ -81,7 +81,7 @@ export interface NavItem {
     external?: boolean;
     label?: string;
     description?: string;
-    permissions?: string[];
+    permissions: string[];
     icon?: keyof typeof Icons;
   }
   
@@ -91,60 +91,70 @@ export interface NavItem {
       href: "/dashboard",
       icon: "dashboard",
       label: "Dashboard",
+      permissions : ['all'],
     },
     {
       title: "Spring24 Recruitment",
       href: "/dashboard/recruit",
       icon: "recruit",
       label: "recruit",
+      permissions : ['Not a Member'],
     },
     {
       title: "Users",
       href: "/dashboard/users",
       icon: "users",
       label: "users",
+      permissions : ['president', 'vp', 'ags', 'gso', 'gsa'],
     },
     {
       title: "Interview Panel",
       href: "/dashboard/interview",
       icon: "activity",
       label: "interview",
+      permissions : ['president', 'vp', 'ags', 'gso', 'gsa', 'director','ad','secretary'],
     },
     {
       title: "Interview Status",
       href: "/dashboard/interview-status",
       icon: "flame",
       label: "interview-status",
+      permissions : ['president', 'vp', 'ags', 'gso', 'gsa'],
     },
     {
       title: "Event Registration",
       href: "/dashboard/event-register",
       icon: "calendarplus",
       label: "event-register",
+      permissions : [],
     },
     {
       title: "Event Manager",
       href: "/dashboard/event-manager",
       icon: "userCog",
       label: "event-manager",
+      permissions : [],
     },
     {
       title: "Send Mail",
       href: "/dashboard/email",
       icon: "mail",
       label: "email",
+      permissions : ['president', 'vp', 'ags', 'gso', 'gsa'],
     },
     {
       title: "Send Sms",
       href: "/dashboard/sms",
       icon: "sms",
       label: "sms",
+      permissions : ['president', 'vp', 'ags', 'gso', 'gsa'],
     },
     {
       title: "Settings",
       href: "/dashboard/settings",
       icon: "settings",
       label: "settings",
+      permissions : ['all'],
     },
   ];
   
