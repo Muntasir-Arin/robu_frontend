@@ -166,7 +166,7 @@ export default function InputForm() {
 <div>
       {isSpring24Available? (
         <div className="text-center mt-[10rem] px-8">
-          <h2 className="text-3xl font-bold tracking-tight">You've already applied for this semester.</h2>
+          <h2 className="text-3xl font-bold tracking-tight">You&apos;ve already applied for this semester.</h2>
 
 
           {/* {applicantsData.map((applicant) => (
