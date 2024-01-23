@@ -10,22 +10,30 @@ import { Suspense } from "react";
 export default function Home() {
   return (
     <div>
-      <Banner />
-      <NavBar />
-      
-
-      
-
       <div className="absolute top-0 h-dvh -z-50 overflow-hidden">
       <Suspense fallback={<div className="w-full h-dvh"></div>}>
-      <video autoPlay muted loop className="w-full object-cover hidden dark:block">
+      <video autoPlay muted loop className="h-full lg:h-auto lg:w-full object-cover hidden dark:block">
         <source src="/bg.webm" type="video/webm" />
       </video>
       </Suspense>
 
       </div>
 
+      <div className="h-dvh">
+
+
+      <Banner />
+      <NavBar />
+      
+
+      
+
+      
+
         <HeroCarousel/>
+      </div>
+      
+        
       
         {/* <div>
         <p className="text-center text-[2.5rem] sm:text-4xl lg:text-5xl font-black uppercase text-white">
