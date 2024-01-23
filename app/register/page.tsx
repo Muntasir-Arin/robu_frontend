@@ -63,11 +63,20 @@ const RegisterPage = () => {
 
   const searchParams = useSearchParams()
   const redirect  = searchParams.get('redirect')
+  const [toastShown, setToastShown] = useState(false);
+  const showToast = () => {
+    if (redirect === 'recruit' && !toastShown) {
+      toast.info('Step 1/3: Account Creation', {
+        description: 'Register using a non-GSuite email and set up your account. Make sure to select "Brac University" as your organization.',
+      });
+      setToastShown(true);
+    }
+  };
 
 
-  if (redirect=='recruit'){toast.info('Step 1/3: Account Creation', {
-    description: 'Register using a non-GSuite email and set up your account. Make sure to select "Brac University" as your organization.',
-  })}
+  useEffect(() => {
+    showToast();
+  }, [redirect, toastShown]);
   
 
   const [isLoading, setLoading] = useState(false);

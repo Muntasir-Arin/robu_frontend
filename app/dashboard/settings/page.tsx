@@ -39,9 +39,20 @@ const FormSchema = z.object({
 export default function Page() {
   const searchParams = useSearchParams()
   const redirect  = searchParams.get('redirect')
-  if (redirect=='recruit'){toast.info('Step 2/3: Fill Up Necessary Data', {
-    description: 'Provide the required information for a successful registration.',
-  })}
+  const [toastShown, setToastShown] = useState(false);
+  const showToast = () => {
+    if (redirect === 'recruit' && !toastShown) {
+      toast.info('Step 2/3: Fill Up Necessary Data', {
+        description: 'Provide the required information for a successful registration.',
+      });
+      setToastShown(true);
+    }
+  };
+
+  useEffect(() => {
+    showToast();
+  }, [redirect, toastShown]);
+  
   const router = useRouter();
   const { userData } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -76,7 +87,7 @@ export default function Page() {
           },
         });
 
-        router.push('/dashboard/recruit/');
+        if (redirect=='recruit'){router.push('/dashboard/recruit?redirect=recruit');}else{router.push('/dashboard/recruit/');}
 
       } else {
         console.error("Access token not found in localStorage.");

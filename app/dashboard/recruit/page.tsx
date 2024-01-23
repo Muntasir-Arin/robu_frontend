@@ -47,9 +47,20 @@ const FormSchema = z.object({
 export default function InputForm() {
   const searchParams = useSearchParams()
   const redirect  = searchParams.get('redirect')
-  if (redirect=='recruit'){toast.info('Step 3/3: Department Choice and Introduction', {
-    description: 'Select your preferred department and share a brief introduction about yourself.',
-  })}
+  const [toastShown, setToastShown] = useState(false);
+  const showToast = () => {
+    if (redirect === 'recruit' && !toastShown) {
+      toast.info('Step 3/3: Department Choice and Introduction', {
+        description: 'Select your preferred department and share a brief introduction about yourself.',
+      });
+      setToastShown(true);
+    }
+  };
+
+  useEffect(() => {
+    showToast();
+  }, [redirect, toastShown]);
+
   const [applicantsData, setApplicantsData] = useState<any[]>([]);
   const [isSpring24Available, setSpring24Available] = useState<boolean>(false);
   useEffect(() => {
