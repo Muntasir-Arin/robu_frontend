@@ -18,17 +18,10 @@ export default function Home() {
       </Suspense>
 
       </div>
-
-      <div className="h-dvh">
-
-
       <Banner />
       <NavBar />
-      
 
-      
-
-      
+      <div className="h-dvh">
 
         <HeroCarousel/>
       </div>
