@@ -2,6 +2,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+Environment Variables:
+NEXT_PUBLIC_BACKEND_URL
+NEXT_PUBLIC_WEBTHREEFORMS
+
 First, run the development server:
 
 ```bash
