@@ -1,6 +1,6 @@
   "use client";
   import { useState } from "react";
-  import { useRouter } from "next/navigation";
+  import { useRouter, useSearchParams } from "next/navigation";
   import { z, ZodError } from "zod";
   import { ReloadIcon } from "@radix-ui/react-icons";
   import { Button } from "@/components/ui/button";
@@ -48,6 +48,8 @@ import { toast } from "sonner"
   });
 
   const LoginPage = () => {
+    const searchParams = useSearchParams()
+  const redirect  = searchParams.get('redirect')
     const [isLoading, setLoading] = useState(false);
     const router = useRouter();
     const [formData, setFormData] = useState({
@@ -87,7 +89,8 @@ import { toast } from "sonner"
           localStorage.setItem('lastTokenRefresh', new Date().toISOString());
 
           // Redirect to the homepage
-          router.push('/');
+          if (redirect=='recruit'){router.push('/dashboard/settings?redirect=recruit');}else{router.push('/');}
+          
         } else {
           setErrors({});
           // Handle missing token in the response

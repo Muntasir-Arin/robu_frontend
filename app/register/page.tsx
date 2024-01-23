@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams  } from "next/navigation";
 import { z, ZodError } from "zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { Button } from "@/components/ui/button";
@@ -60,8 +60,11 @@ const FormSchema = z.object({
 
 const RegisterPage = () => {
 
+  const searchParams = useSearchParams()
+  const redirect  = searchParams.get('redirect')
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
+
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -91,7 +94,34 @@ const RegisterPage = () => {
         org: formData.organization,
       });
       if (response.status === 201) {
-      router.push("/login");}else {
+        if (redirect=='recruit'){
+          const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/jwt/create/`, {
+            email: formData.email,
+            password: formData.password,
+          });
+          if (response.status === 200) {
+            // Successful login
+            const auth_token = response.data?.access;
+            const refreshToken = response.data?.refresh;
+
+            if (auth_token) {
+              // Store the token securely (e.g., in localStorage)
+              localStorage.setItem('token', auth_token);
+              localStorage.setItem('refreshToken', refreshToken);
+              localStorage.setItem('lastTokenRefresh', new Date().toISOString());
+    
+              // Redirect to the homepage
+              router.push('/dashboard/settings?redirect=recruit');}
+            else{console.error('Missing auth_token in response');}
+            router.refresh();}
+            else {console.error('Missing auth_token in response');
+            router.refresh();}
+
+      
+      }else{router.push("/login");}
+      
+    }
+      else {
         setErrors({});
 
         toast.error('Network Error', {
@@ -219,9 +249,15 @@ const RegisterPage = () => {
         )}
       </form>
       <div className="flex justify-between text-sm text-accent-foreground mt-4">
-        <Link href="/login" className="p-2 hover:underline">
-          Already have an account?
-        </Link>
+      {redirect === 'recruit' ? (
+  <Link href="/login?redirect=recruit" className="p-2 hover:underline">
+    Already have an account?
+  </Link>
+) : (
+  <Link href="/login" className="p-2 hover:underline">
+    Already have an account?
+  </Link>
+)}
       </div>
     </div>
   );
