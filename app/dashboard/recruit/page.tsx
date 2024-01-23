@@ -24,6 +24,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import api from "@/utils/auth";
+import { useEffect, useState } from "react";
 
 const FormSchema = z.object({
   about: z.string().min(30, {
@@ -43,6 +44,29 @@ const FormSchema = z.object({
 });
 
 export default function InputForm() {
+  const [applicantsData, setApplicantsData] = useState<any[]>([]);
+  const [isSpring24Available, setSpring24Available] = useState<boolean>(false);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseapplicantsData = await api.get('http://127.0.0.1:8000/api/applicants/info/');
+
+        if (responseapplicantsData.status === 200) {
+          setApplicantsData(responseapplicantsData.data);
+          const isAvailable = responseapplicantsData.data.some((item: any) => item.id.includes('spring24'));
+          setSpring24Available(isAvailable);
+        } else {
+          console.error(`Failed to fetch data. Status code: ${responseapplicantsData.status}`);
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+  
+
   const depts = [
     { id: "Editorial and Publications", name: "Editorial and Publications" },
     { id: "IT", name: "IT" },
@@ -55,6 +79,7 @@ export default function InputForm() {
   ]
 
   const form = useForm<z.infer<typeof FormSchema>>({
+    
     resolver: zodResolver(FormSchema),
     defaultValues: {
       about: "",
@@ -133,7 +158,24 @@ export default function InputForm() {
     }
   };
   return (
-    <Form {...form}>
+    
+
+
+
+
+<div>
+      {isSpring24Available? (
+        <div className="text-center mt-[10rem] px-8">
+          <h2 className="text-3xl font-bold tracking-tight">You've already applied for this semester.</h2>
+
+
+          {/* {applicantsData.map((applicant) => (
+            <div key={applicant.id}>{applicant.id}</div>
+          ))} */}
+        </div>
+      ) : (
+        <div>
+              <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="md:w-1/2 w-3/4 space-y-6 mx-auto mt-8 mb-16"
@@ -279,5 +321,8 @@ export default function InputForm() {
         </Button>
       </form>
     </Form>
+        </div>
+      )}
+    </div>
   );
 }
