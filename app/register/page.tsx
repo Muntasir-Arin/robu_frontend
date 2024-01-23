@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams  } from "next/navigation";
 import { z, ZodError } from "zod";
 import { ReloadIcon } from "@radix-ui/react-icons";
@@ -60,8 +60,16 @@ const FormSchema = z.object({
 
 const RegisterPage = () => {
 
+
   const searchParams = useSearchParams()
   const redirect  = searchParams.get('redirect')
+
+
+  if (redirect=='recruit'){toast.info('Step 1/3: Account Creation', {
+    description: 'Register using a non-GSuite email and set up your account. Make sure to select "Brac University" as your organization.',
+  })}
+  
+
   const [isLoading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -72,6 +80,8 @@ const RegisterPage = () => {
     name: "",
   });
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+ 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;

@@ -29,7 +29,7 @@ export function HeroCarousel() {
         <CarouselItem >
         <AspectRatio ratio={16 / 9} className="rounded-md overflow-hidden">
       <Image
-        src="/about.jpg"
+        src="/image (1).jpg"
         alt=""
         layout="fill"
         objectFit="cover"
@@ -39,7 +39,7 @@ export function HeroCarousel() {
                 </CarouselItem>
         <CarouselItem><AspectRatio ratio={16 / 9} className="rounded-md overflow-hidden">
       <Image
-        src="/about.jpg"
+        src="/image (2).jpg"
         alt=""
         layout="fill"
         objectFit="cover"
@@ -48,7 +48,17 @@ export function HeroCarousel() {
     </AspectRatio>  </CarouselItem>
         <CarouselItem><AspectRatio ratio={16 / 9} className="rounded-md overflow-hidden">
       <Image
-        src="/about.jpg"
+        src="/image (3).jpg"
+        alt=""
+        layout="fill"
+        objectFit="cover"
+        quality={40}
+      />
+    </AspectRatio>  </CarouselItem>
+
+    <CarouselItem><AspectRatio ratio={16 / 9} className="rounded-md overflow-hidden">
+      <Image
+        src="/image (4).jpg"
         alt=""
         layout="fill"
         objectFit="cover"
