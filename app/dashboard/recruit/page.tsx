@@ -25,6 +25,7 @@ import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import api from "@/utils/auth";
 import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 const FormSchema = z.object({
   about: z.string().min(30, {
@@ -44,6 +45,11 @@ const FormSchema = z.object({
 });
 
 export default function InputForm() {
+  const searchParams = useSearchParams()
+  const redirect  = searchParams.get('redirect')
+  if (redirect=='recruit'){toast.info('Step 3/3: Department Choice and Introduction', {
+    description: 'Select your preferred department and share a brief introduction about yourself.',
+  })}
   const [applicantsData, setApplicantsData] = useState<any[]>([]);
   const [isSpring24Available, setSpring24Available] = useState<boolean>(false);
   useEffect(() => {

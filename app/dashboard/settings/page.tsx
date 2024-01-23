@@ -17,7 +17,8 @@ import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import useAuth from "@/utils/checkauth";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 const FormSchema = z.object({
   name: z.string(),
@@ -36,6 +37,11 @@ const FormSchema = z.object({
 });
 
 export default function Page() {
+  const searchParams = useSearchParams()
+  const redirect  = searchParams.get('redirect')
+  if (redirect=='recruit'){toast.info('Step 2/3: Fill Up Necessary Data', {
+    description: 'Provide the required information for a successful registration.',
+  })}
   const router = useRouter();
   const { userData } = useAuth();
   const [loading, setLoading] = useState(false);
