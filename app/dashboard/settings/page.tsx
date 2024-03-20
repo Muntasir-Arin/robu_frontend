@@ -22,18 +22,18 @@ import { toast } from "sonner";
 
 const FormSchema = z.object({
   name: z.string(),
-  date_of_birth: z.string(),
-  phone_number: z.string(),
+  date_of_birth: z.string().nullable(),
+  phone_number: z.string().nullable(),
   org: z.string(),
-  blood_group: z.string(),
-  gender: z.string(),
-  facebook_profile: z.string(),
+  blood_group: z.string().nullable(),
+  gender: z.string().nullable(),
+  facebook_profile: z.string().nullable(),
   insta_link: z.string().nullable(),
   linkedin_link: z.string().nullable(),
-  bracu_start: z.string(),
+  bracu_start: z.string().nullable(),
   student_id: z.string(),
-  rs_status: z.string(),
-  secondary_email: z.string()
+  rs_status: z.string().nullable(),
+  secondary_email: z.string().nullable()
 });
 
 export default function Page() {
@@ -87,7 +87,10 @@ export default function Page() {
           },
         });
 
-        if (redirect=='recruit'){router.push('/dashboard/recruit?redirect=recruit');}else{router.push('/dashboard/recruit/');}
+        if (redirect=='recruit'){router.push('/dashboard/recruit?redirect=recruit');}else{
+          toast.success('Successfully updated', {
+            description: 'Successfully updated',
+          });}
 
       } else {
         console.error("Access token not found in localStorage.");
@@ -151,6 +154,7 @@ export default function Page() {
                   type="date"
                   placeholder="Select your date of birth"
                   {...field}
+                  value={field.value || ''}
                 />
                 <FormDescription>
                   Please select your date of birth.
@@ -165,7 +169,7 @@ export default function Page() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Phone</FormLabel>
-                <Input placeholder="Enter your phone number" {...field} />
+                <Input placeholder="Enter your phone number" {...field} value={field.value || ''} />
                 <FormDescription>
                   Provide your contact phone number.
                 </FormDescription>
@@ -179,7 +183,7 @@ export default function Page() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Organization</FormLabel>
-                <Input placeholder="Enter your organization" {...field} />
+                <Input placeholder="Enter your organization" {...field} value={field.value || ''}/>
                 <FormDescription>
                   Specify the organization you belong to.
                 </FormDescription>
@@ -200,6 +204,7 @@ export default function Page() {
                   type="date"
                   placeholder="Select your Bracu joining date"
                   {...field}
+                  value={field.value || ''}
                 />
                 <FormDescription>
                   Please select your Bracu joining date.
@@ -234,6 +239,7 @@ export default function Page() {
                 <Input
                   placeholder="Enter your RS status"
                   {...field}
+                  value={field.value || ''}
                 />
                 <FormDescription>
                   Specify your RS status.
@@ -251,6 +257,7 @@ export default function Page() {
                 <Input
                   placeholder="Enter your Gsuit email"
                   {...field}
+                  value={field.value || ''}
                 />
                 <FormDescription>
                   Provide your Gsuit email.
@@ -268,7 +275,7 @@ export default function Page() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Blood Group</FormLabel>
-                <Input placeholder="Enter your blood group" {...field} />
+                <Input placeholder="Enter your blood group" {...field} value={field.value || ''}/>
                 <FormDescription>
                   Optional: Provide your blood group if known.
                 </FormDescription>
@@ -282,7 +289,7 @@ export default function Page() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Gender</FormLabel>
-                <Input placeholder="Enter your gender" {...field} />
+                <Input placeholder="Enter your gender" {...field} value={field.value || ''}/>
                 <FormDescription>Specify your gender.</FormDescription>
               </FormItem>
             )}
@@ -296,7 +303,7 @@ export default function Page() {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Facebook Link</FormLabel>
-                <Input placeholder="Enter your Facebook link" {...field} />
+                <Input placeholder="Enter your Facebook link" {...field} value={field.value || ''}/>
                 <FormDescription>
                   Provide the link to your Facebook profile.
                 </FormDescription>

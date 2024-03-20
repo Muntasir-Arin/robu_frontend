@@ -201,7 +201,7 @@ import { toast } from "sonner"
           )}
         </form>
         <div className="flex justify-between text-sm text-accent-foreground  mt-4">
-              <Link href="/register" className="p-2 hover:underline">Forget Password</Link>
+              <Link href="/password-reset" className="p-2 hover:underline">Forget Password</Link>
               <Link href="/register" className="p-2 hover:underline">Register Instead?</Link>
           </div>
       </div>
