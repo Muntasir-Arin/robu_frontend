@@ -35,7 +35,7 @@ export default function NavBar() {
         </Link>
         <Link href="/">
           <Button variant="ghost" className="rounded-full">
-            Project
+            Members & Alumni
           </Button>
         </Link>
         <Link href="/">
