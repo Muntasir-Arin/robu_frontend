@@ -133,7 +133,7 @@ export interface NavItem {
       href: "/dashboard/event-manager",
       icon: "userCog",
       label: "event-manager",
-      permissions : [],
+      permissions : ['president', 'vp', 'ags', 'gso', 'gsa'],
     },
     {
       title: "Send Mail",

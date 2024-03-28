@@ -33,7 +33,7 @@ export default function NavBar() {
             Panel
           </Button>
         </Link>
-        <Link href="/">
+        <Link href="/members">
           <Button variant="ghost" className="rounded-full">
             Members & Alumni
           </Button>
