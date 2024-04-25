@@ -25,6 +25,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-tabs": "^1.0.4",
     "@radix-ui/react-toast": "^1.1.5",
+    "@tanstack/react-table": "^8.16.0",
     "@types/js-cookie": "^3.0.6",
     "ag-grid-community": "^31.0.1",
     "ag-grid-react": "^31.0.1",
