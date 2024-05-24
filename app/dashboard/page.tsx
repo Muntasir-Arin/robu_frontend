@@ -52,30 +52,29 @@ export default function Page() {
       }
     }
   };
-
-  return (<div>{condition ? (
-    <div className="flex items-center justify-center h-screen"> 
-      <div className="text-center mt-[-10rem] px-8">
-      <div>
-      
-      <p>Positive Sentiments: {summaryData?.positive_count}</p>
-      <p>Negative Sentiments: {summaryData?.negative_count}</p>
-      <Progress value={(summaryData?.positive_count/(summaryData?.positive_count+summaryData?.negative_count))*100} />
-    </div>
+  if (userData?.is_verified){
+    return (
+      <div className="flex items-center justify-center h-screen"> 
+        <div className="text-center mt-[-10rem] px-8">
+        <div>
+        
+        <p>Positive Sentiments: {summaryData?.positive_count}</p>
+        <p>Negative Sentiments: {summaryData?.negative_count}</p>
+        <Progress value={(summaryData?.positive_count/(summaryData?.positive_count+summaryData?.negative_count))*100} />
       </div>
-    </div>
-
-     ) : (
+        </div>
+      </div>
+       )
+  }
+  else if (userData){
+    return (<div>
       <div className="flex items-center justify-center h-96">
   <div className="text-center mt-[-10rem] px-8 rounded-none text-3xl font-bold tracking-tight">
     Your account has not been verified. Please click <span onClick={handleVerification} className=" text-blue-400"> <a href="#">here </a> </span> to receive a verification email.
   </div>
 </div>
-       
-     )}
-
     </div>
-
-    
   );
+  }
+
 }
