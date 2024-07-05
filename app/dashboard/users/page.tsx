@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,20 +12,20 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+} from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 import { toast } from "sonner";
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu, 
+  DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -33,27 +33,25 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import api from "@/utils/auth"
-
-
+} from "@/components/ui/table";
+import api from "@/utils/auth";
 
 export type UserData = {
-  id: number,
-  idid :number,
-  student_id :string,
-  name: string,
-  email: string,
-  position: string
-}
+  id: number;
+  idid: number;
+  student_id: string;
+  name: string;
+  email: string;
+  position: string;
+};
 
-export const columns: ColumnDef<UserData>[] = [
+const columns: ColumnDef<UserData>[] = [
   {
     accessorKey: "idid", // Add the accessor key for id
     header: "ID",
     cell: ({ row }) => <div>{row.getValue("idid")}</div>, // Display the ID value
   },
-  
+
   {
     accessorKey: "student_id", // Add the accessor key for id
     header: "Student ID",
@@ -70,7 +68,7 @@ export const columns: ColumnDef<UserData>[] = [
           Position
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("position")}</div>
@@ -87,9 +85,9 @@ export const columns: ColumnDef<UserData>[] = [
           Name
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
-    cell: ({ row }) => <div >{row.getValue("name")}</div>,
+    cell: ({ row }) => <div>{row.getValue("name")}</div>,
   },
   {
     accessorKey: "email",
@@ -102,17 +100,17 @@ export const columns: ColumnDef<UserData>[] = [
           Email
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      );
     },
     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
-  
+
   {
     id: "id",
     header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const Users = row.original
+      const Users = row.original;
 
       return (
         <DropdownMenu>
@@ -124,88 +122,107 @@ export const columns: ColumnDef<UserData>[] = [
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Promotion</DropdownMenuLabel>
-      
-            <DropdownMenuItem onClick={async () => {
-            try {
-              const response = await api.patch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/secure/${row.getValue("idid")}/`,
-                { position: "Executive" }
-              );
 
-              toast.success('Promoted to Executive', {
-                description: `${response.data.name} has been promoted to ${response.data.position}.`,
-              });
-            } catch (error) {
-              console.error(error);
-            }
-          }}>
+            <DropdownMenuItem
+              onClick={async () => {
+                try {
+                  const response = await api.patch(
+                    `${
+                      process.env.NEXT_PUBLIC_BACKEND_URL
+                    }/api/secure/${row.getValue("idid")}/`,
+                    { position: "Executive" }
+                  );
+
+                  toast.success("Promoted to Executive", {
+                    description: `${response.data.name} has been promoted to ${response.data.position}.`,
+                  });
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+            >
               To Executive
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={async () => {
-            try {
-              const response = await api.patch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/secure/${row.getValue("idid")}/`,
-                { position: "Junior Executive" }
-              );
+            <DropdownMenuItem
+              onClick={async () => {
+                try {
+                  const response = await api.patch(
+                    `${
+                      process.env.NEXT_PUBLIC_BACKEND_URL
+                    }/api/secure/${row.getValue("idid")}/`,
+                    { position: "Junior Executive" }
+                  );
 
-              toast.success('Promoted to Junior Executive', {
-                description: `${response.data.name} has been promoted to ${response.data.position}.`,
-              });
-            } catch (error) {
-              console.error(error);
-            }
-          }}>
+                  toast.success("Promoted to Junior Executive", {
+                    description: `${response.data.name} has been promoted to ${response.data.position}.`,
+                  });
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+            >
               To Junior Executive
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={async () => {
-            try {
-              const response = await api.patch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/secure/${row.getValue("idid")}/`,
-                { position: "Apprentice" }
-              );
+            <DropdownMenuItem
+              onClick={async () => {
+                try {
+                  const response = await api.patch(
+                    `${
+                      process.env.NEXT_PUBLIC_BACKEND_URL
+                    }/api/secure/${row.getValue("idid")}/`,
+                    { position: "Apprentice" }
+                  );
 
-              toast.success('Promoted to Apprentice', {
-                description: `${response.data.name} has been promoted to ${response.data.position}.`,
-              });
-            } catch (error) {
-              console.error(error);
-            }
-          }}>
+                  toast.success("Promoted to Apprentice", {
+                    description: `${response.data.name} has been promoted to ${response.data.position}.`,
+                  });
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+            >
               To Apprentice
             </DropdownMenuItem>
 
-            <DropdownMenuItem onClick={async () => {
-            try {
-              const response = await api.patch(
-                `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/secure/${row.getValue("idid")}/`,
-                { position: "General Member" }
-              );
+            <DropdownMenuItem
+              onClick={async () => {
+                try {
+                  const response = await api.patch(
+                    `${
+                      process.env.NEXT_PUBLIC_BACKEND_URL
+                    }/api/secure/${row.getValue("idid")}/`,
+                    { position: "General Member" }
+                  );
 
-              toast.success('Promoted to General Member', {
-                description: `${response.data.name} has been promoted to ${response.data.position}.`,
-              });
-            } catch (error) {
-              console.error(error);
-            }
-          }}>
+                  toast.success("Promoted to General Member", {
+                    description: `${response.data.name} has been promoted to ${response.data.position}.`,
+                  });
+                } catch (error) {
+                  console.error(error);
+                }
+              }}
+            >
               To General Member
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-              <a href={`/profile/member/${row.getValue("student_id")}`} target="_blank" rel="noopener noreferrer">
+              <a
+                href={`/profile/member/${row.getValue("student_id")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 View Profile
               </a>
             </DropdownMenuItem>
-
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
 
 export default function DataTableDemo() {
   const [data, setData] = React.useState<UserData[]>([]);
@@ -215,7 +232,9 @@ export default function DataTableDemo() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/secure/`);
+        const response = await api.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/secure/`
+        );
         // Extract only the required fields from each user object
         const userData = response.data.map((user: any) => ({
           id: user.id,
@@ -223,7 +242,7 @@ export default function DataTableDemo() {
           name: user.name,
           email: user.email,
           position: user.position,
-          student_id :user.student_id
+          student_id: user.student_id,
         }));
         setData(userData);
       } catch (error) {
@@ -235,13 +254,13 @@ export default function DataTableDemo() {
     fetchData();
   }, []);
 
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
-  )
+  );
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data,
@@ -260,7 +279,7 @@ export default function DataTableDemo() {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
   if (loading) return <div>Loading...</div>;
 
   return (
@@ -296,7 +315,7 @@ export default function DataTableDemo() {
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>
-                )
+                );
               })}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -316,7 +335,7 @@ export default function DataTableDemo() {
                             header.getContext()
                           )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -376,5 +395,5 @@ export default function DataTableDemo() {
         </div>
       </div>
     </div>
-  )
+  );
 }
