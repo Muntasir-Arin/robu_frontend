@@ -25,7 +25,7 @@ import { toast } from "sonner";
 import { Textarea } from "@/components/ui/textarea";
 import api from "@/utils/auth";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const FormSchema = z.object({
   about: z.string().min(30, {
@@ -45,6 +45,7 @@ const FormSchema = z.object({
 });
 
 export default function InputForm() {
+  const router = useRouter();
   const searchParams = useSearchParams()
   const redirect  = searchParams.get('redirect')
   const [toastShown, setToastShown] = useState(false);
@@ -161,7 +162,8 @@ export default function InputForm() {
       });
 
       if (response.status === 201) {
-        toast.message('Yayyyy', {
+        window.location.reload();
+        toast.message('Thank you! Your submission has been successfully received', {
           description: '',
         });
       } else {
