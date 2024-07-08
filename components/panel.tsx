@@ -2,24 +2,24 @@ import React from "react"
 import Image from "next/image"
 const people = [
   {
-    name: 'Shawon Ahmed',
+    name: 'Sajid Sohan',
     role: 'President',
     imageUrl:
-      '/president.webp',
+      '/president.png',
   },
   {
-    name: 'Sharnit Saha',
+    name: 'S M Minoor Karim',
     role: 'Vice President',
     imageUrl:
-    '/vice-president.jpg'  },{
-    name: 'Abid Mahmood Akash',
+    '/vice-president.png'  },{
+    name: 'Ahmed Mahdi Uddin',
     role: 'General Secretary of Operations',
     imageUrl:
     '/gs-o.jpg'  },{
-    name: 'Md Mahfujul Haque Sourov',
-    role: 'Assistant General Secretary',
+    name: 'Umama Tasnuva Aziz ',
+    role: 'General Secretary of Administration',
     imageUrl:
-    '/ags.jpg'  },
+    '/gs-a.jpg'  },
 ]
 
 export default function Panel() {
@@ -29,7 +29,7 @@ export default function Panel() {
         <div className="max-w-2xl m-auto">
           <h2 className="text-3xl font-bold tracking-tight text-slate-50 sm:text-[3rem] sm:leading-[2.8rem] uppercase">Meet our leadership</h2>
           <p className="mt-3 text-lg leading-8 text-slate-50">
-          Presidential Panel for the academic year 2023
+          Presidential Panel for the academic year 2024
           </p>
         </div>
         <ul role="list" className="grid gap-x-8 gap-y-12 sm:grid-cols-2 sm:gap-y-16 xl:col-span-2 ">
