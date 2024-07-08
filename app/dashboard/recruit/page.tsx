@@ -26,6 +26,7 @@ import { Textarea } from "@/components/ui/textarea";
 import api from "@/utils/auth";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import useAuth from "@/utils/checkauth";
 
 const FormSchema = z.object({
   about: z.string().min(30, {
@@ -45,6 +46,7 @@ const FormSchema = z.object({
 });
 
 export default function InputForm() {
+  const { userData } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams()
   const redirect  = searchParams.get('redirect')
@@ -176,6 +178,13 @@ export default function InputForm() {
       toast.error('An error occurred. Please try again later.');
     }
   };
+  if (!userData?.student_id) {
+    return (
+      <div>
+        <p>Please go to settings to update your student ID.</p>
+      </div>
+    );
+  }
   return (
     
 
