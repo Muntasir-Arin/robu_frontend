@@ -164,14 +164,16 @@ const RegisterPage = () => {
         }, 200);
       }
       if (axios.isAxiosError(error)) {
-        setErrors({});
+        
         if (error.response && error.response.status === 400) {
           const { data } = error.response;
           if (data.email) {
+            setErrors({});
             toast.error('Email Error', {
               description: data.email[0],
             });
           } else if (data.password) {
+            setErrors({});
             toast.error('Password Error', {
               description: data.password[0],
             });
