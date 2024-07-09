@@ -72,7 +72,7 @@ export default function Page() {
 
   const onSubmit = (data: z.infer<typeof SearhSchema>) => {
     const studentID = data.studentID;
-    const semester = "spring24";
+    const semester = "summer24";
     if (studentID) {
       const newCustomId = `${studentID}_${semester}`;
       setCustomId(newCustomId);

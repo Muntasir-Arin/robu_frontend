@@ -65,7 +65,7 @@ export default function InputForm() {
   }, [redirect, toastShown]);
 
   const [applicantsData, setApplicantsData] = useState<any[]>([]);
-  const [isSpring24Available, setSpring24Available] = useState<boolean>(false);
+  const [isSpringAvailable, setSpringAvailable] = useState<boolean>(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -73,8 +73,8 @@ export default function InputForm() {
 
         if (responseapplicantsData.status === 200) {
           setApplicantsData(responseapplicantsData.data);
-          const isAvailable = responseapplicantsData.data.some((item: any) => item.id.includes('spring24'));
-          setSpring24Available(isAvailable);
+          const isAvailable = responseapplicantsData.data.some((item: any) => item.id.includes('summer24'));
+          setSpringAvailable(isAvailable);
         } else {
           console.error(`Failed to fetch data. Status code: ${responseapplicantsData.status}`);
         }
@@ -160,7 +160,7 @@ export default function InputForm() {
         about: data.about,
         drive_link: data.project,
         dept_choice: [data.dept1, data.dept2, data.dept3].join(','),
-        semester: "spring24",
+        semester: "summer24",
       });
 
       if (response.status === 201) {
@@ -192,7 +192,7 @@ export default function InputForm() {
 
 
 <div>
-      {isSpring24Available? (
+      {isSpringAvailable? (
         <div className="text-center mt-[10rem] px-8">
           <h2 className="text-3xl font-bold tracking-tight">You&apos;ve already applied for this semester.</h2>
 

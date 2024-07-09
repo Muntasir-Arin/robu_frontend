@@ -94,7 +94,7 @@ export interface NavItem {
       permissions : ['all'],
     },
     {
-      title: "Spring24 Recruitment",
+      title: "Summer24 Recruitment",
       href: "/dashboard/recruit",
       icon: "recruit",
       label: "recruit",
