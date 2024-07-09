@@ -163,7 +163,7 @@ const RegisterPage = () => {
           setLoading(false);
         }, 200);
       }
-      if (axios.isAxiosError(error)) {
+      // if (axios.isAxiosError(error)) {
         
         if (error.response && error.response.status === 400) {
           const { data } = error.response;
@@ -191,12 +191,12 @@ const RegisterPage = () => {
             description: 'Unable to establish a connection. Please check your network connection and try again.',
           });
         }
-      } else {
-        setErrors({});
-        toast.error('Network Error', {
-          description: 'Unable to establish a connection. Please check your network connection and try again.',
-        });
-      }
+    //   } else {
+    //     setErrors({});
+    //     toast.error('Network Error', {
+    //       description: 'Unable to establish a connection. Please check your network connection and try again.',
+    //     });
+    //   }
     }
     setTimeout(() => {
       setLoading(false);
