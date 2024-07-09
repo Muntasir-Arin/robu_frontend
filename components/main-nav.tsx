@@ -23,6 +23,11 @@ export default function NavBar() {
       </div>
 
       <div className="pt-2 lg:flex justify-center space-x-4 hidden">
+      <Link href="#home">
+          <Button variant="ghost" className="rounded-full">
+            Home
+          </Button>
+        </Link>
         <Link href="#about">
           <Button variant="ghost" className="rounded-full">
             About
@@ -33,16 +38,16 @@ export default function NavBar() {
             Panel
           </Button>
         </Link>
-        <Link href="/members">
+        {/* <Link href="/members">
           <Button variant="ghost" className="rounded-full">
             Members & Alumni
           </Button>
-        </Link>
-        <Link href="/">
+        </Link> */}
+        {/* <Link href="/">
           <Button variant="ghost" className="rounded-full">
             Events
           </Button>
-        </Link>
+        </Link> */}
         <Link href="#contact">
           <Button variant="ghost" className="rounded-full">
             Contact

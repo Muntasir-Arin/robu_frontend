@@ -10,7 +10,7 @@ import { Suspense } from "react";
 export default function Home() {
   return (
     <div>
-      <div className="absolute top-0 h-dvh -z-50 overflow-hidden">
+      <div id="home" className="absolute top-0 md:h-dvh -z-50 overflow-hidden h-1/2 ">
       <Suspense fallback={<div className="w-full h-dvh"></div>}>
       <video autoPlay muted loop className="h-full lg:h-auto lg:w-full object-cover hidden dark:block">
         <source src="/bg.webm" type="video/webm" />
@@ -21,7 +21,7 @@ export default function Home() {
       <Banner />
       <NavBar />
 
-      <div className="h-dvh">
+      <div className="md:h-dvh h-1/2">
 
         <HeroCarousel/>
       </div>

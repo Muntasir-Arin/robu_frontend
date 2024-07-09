@@ -27,6 +27,7 @@ import api from "@/utils/auth";
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import useAuth from "@/utils/checkauth";
+import Link from "next/link";
 
 const FormSchema = z.object({
   about: z.string().min(30, {
@@ -180,8 +181,16 @@ export default function InputForm() {
   };
   if (!userData?.student_id) {
     return (
-      <div>
-        <p>Please go to settings to update your student ID.</p>
+      <div className="bg-background text-foreground p-6 rounded-lg shadow-lg md:max-w-[60%] max-w-md mx-auto mt-8">
+        <h2 className="text-2xl font-bold mb-4">Update Your Student ID</h2>
+        <p className="text-lg mb-4">
+          It looks like your student ID is not updated in the settings. Please go to the settings page and update your student ID to access all features.
+        </p>
+        <Link href="/dashboard/settings?redirect=recruit">
+        <button className="bg-primary text-primary-foreground py-2 px-4 rounded-md hover:bg-primary-dark hover:text-primary-dark-foreground transition duration-300 ease-in-out">
+          Go to Settings
+        </button>
+        </Link>
       </div>
     );
   }
