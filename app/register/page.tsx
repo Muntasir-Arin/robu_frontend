@@ -71,6 +71,10 @@ const RegisterPage = () => {
         description: 'Register using a non-GSuite email and set up your account. Make sure to select "Brac University" as your organization.',
       });
       setToastShown(true);
+    }else {
+      toast.info('Step 1/3: Account Creation', {
+        description: 'Register using a non-GSuite email and set up your account. Make sure to select "Brac University" as your organization.',
+      });
     }
   };
 
@@ -114,7 +118,7 @@ const RegisterPage = () => {
         org: formData.organization,
       });
       if (response.status === 201) {
-        if (redirect=='recruit'){
+        // if (redirect=='recruit'){
           const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/jwt/create/`, {
             email: formData.email,
             password: formData.password,
@@ -138,7 +142,7 @@ const RegisterPage = () => {
             router.refresh();}
 
       
-      }else{router.push("/login");}
+      // }else{router.push("/login");}
       
     }
       else {

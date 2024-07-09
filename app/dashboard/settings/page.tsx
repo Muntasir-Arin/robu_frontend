@@ -191,7 +191,7 @@ export default function Page() {
             )}
           />
 
-{userData?.org == "Brac University" && (
+{/* {userData?.org == "Brac University" && ( */}
         <div className="grid gap-y-6">
           
           <FormField
@@ -266,7 +266,7 @@ export default function Page() {
             )}
           />
         </div>
-      )}
+      {/* )} */}
 
 
           <FormField
