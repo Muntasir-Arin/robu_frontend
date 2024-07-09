@@ -15,7 +15,7 @@ const VerifyPage: React.FC<{ params: any }> = ({ params }) => {
         const { id, token } = params;
 
         // Make GET request to verify email
-        await axios.get(`http://localhost:8000/api/auth/verify-email/${id}/${token}`);
+        await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/verify-email/${id}/${token}`);
 
         // If verification is successful, redirect to a success page
         router.push('/verify/success');
