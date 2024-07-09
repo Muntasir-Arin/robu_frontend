@@ -1,31 +1,10 @@
 'use client'
-import { Progress } from "@/components/ui/progress";
 import api from "@/utils/auth";
 import useAuth from "@/utils/checkauth";
-import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 export default function Page() {
   const { userData} = useAuth()
-  const condition = userData?.is_verified;
-  const [summaryData, setSummaryData] = useState<{ positive_count: number, negative_count: number } | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchSentimentSummary = async () => {
-      try {
-        const response = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/extern-feedback/`);
-        setSummaryData(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching sentiment summary:', error);
-        setLoading(false);
-      }
-    };
-
-    fetchSentimentSummary();
-  }, []);
-
   const handleVerification = async (event: React.MouseEvent<HTMLSpanElement>) => {
     event.preventDefault();
 
@@ -56,12 +35,6 @@ export default function Page() {
     return (
       <div className="flex items-center justify-center h-screen"> 
         <div className="text-center mt-[-10rem] px-8">
-        <div>
-        
-        <p>Positive Sentiments: {summaryData?.positive_count}</p>
-        <p>Negative Sentiments: {summaryData?.negative_count}</p>
-        <Progress value={(summaryData?.positive_count/(summaryData?.positive_count+summaryData?.negative_count))*100} />
-      </div>
         </div>
       </div>
        )
