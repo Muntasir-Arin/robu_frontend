@@ -8,6 +8,7 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input"
 import axios from "axios";
 import { toast } from "sonner";
+import { request } from "http";
 
 const isLowercase = (value: string) => /[a-z]/.test(value);
 const isUppercase = (value: string) => /[A-Z]/.test(value);
@@ -142,7 +143,6 @@ const RegisterPage = () => {
     }
       else {
         setErrors({});
-
         toast.error('Network Error', {
           description: 'Unable to establish a connection. Please check your network connection and try again.',
         })
@@ -158,12 +158,38 @@ const RegisterPage = () => {
         setTimeout(() => {
           setLoading(false);
         }, 200);
-      }else {
+      }
+      if (axios.isAxiosError(error)) {
         setErrors({});
-
+        if (error.response && error.response.status === 400) {
+          const { data } = error.response;
+          if (data.email) {
+            toast.error('Email Error', {
+              description: data.email[0],
+            });
+          } else if (data.password) {
+            toast.error('Password Error', {
+              description: data.password[0],
+            });
+          } else {
+            toast.error('Server Error', {
+              description: 'Unable to establish a connection. Please check your network connection and try again.',
+            });
+          }
+        } else if (error.request) {
+          toast.error('Server Error', {
+            description: 'Unable to establish a connection. Please check your network connection and try again.',
+          });
+        } else {
+          toast.error('Server Error', {
+            description: 'Unable to establish a connection. Please check your network connection and try again.',
+          });
+        }
+      } else {
+        setErrors({});
         toast.error('Network Error', {
           description: 'Unable to establish a connection. Please check your network connection and try again.',
-        })
+        });
       }
     }
     setTimeout(() => {
