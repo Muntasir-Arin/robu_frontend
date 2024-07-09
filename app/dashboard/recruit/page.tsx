@@ -70,10 +70,12 @@ export default function InputForm() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responseapplicantsData = await api.get('http://127.0.0.1:8000/api/applicants/info/');
+        const responseapplicantsData = await api.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/applicants/info/`);
 
         if (responseapplicantsData.status === 200) {
           setApplicantsData(responseapplicantsData.data);
+          console.log(111)
+          console.log(responseapplicantsData.data)
           const isAvailable = responseapplicantsData.data.some((item: any) => item.id.includes('summer24'));
           setSpringAvailable(isAvailable);
         } else {
