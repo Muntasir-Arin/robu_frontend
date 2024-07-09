@@ -266,7 +266,7 @@ const RegisterPage = () => {
 
         <div className="mb-4">
           <label className="block text-sm font-semibold text-accent-foreground mb-1">
-            Organization:
+          University:
           </label>
         
           {/* <input
