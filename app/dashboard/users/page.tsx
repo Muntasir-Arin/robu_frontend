@@ -47,7 +47,7 @@ export type UserData = {
   position: string
 }
 
-export const columns: ColumnDef<UserData>[] = [
+const columns: ColumnDef<UserData>[] = [
   {
     accessorKey: "idid", // Add the accessor key for id
     header: "ID",
